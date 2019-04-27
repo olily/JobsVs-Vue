@@ -14,8 +14,8 @@ Vue.use(Router);
 
 //公共部分
 import app from '../views/app/app';
-// import Login from '../views/Login';
-import Login from "@/views/Login";
+import Login from '../views/Login';
+// import Login from "@/views/Login";
 
 //全局状态控制引入
 import store from '../store/store'
@@ -44,11 +44,11 @@ let router = new Router({
         },
       ]
     }
-    // ,{
-    //   path: '/Login',
-    //   name: 'Login',
-    //   component:Login
-    // }
+    ,{
+      path: '/Login',
+      name: 'Login',
+      component:Login
+    }
   ]
 });
 
