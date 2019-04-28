@@ -8,9 +8,13 @@ import $ from 'jquery';
 import Vue from 'vue';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import echarts from 'echarts';
+
 Vue.use(ElementUI);
+Vue.prototype.$echarts = echarts;
 //全局引入路由配置
 import router from './router';
+
 
 
 //全局状态控制引入
