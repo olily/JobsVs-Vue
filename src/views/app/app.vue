@@ -8,7 +8,7 @@
         </el-menu>
       </div>
     </el-col>
-    <el-col :span="20">
+    <el-col :span="20" style="padding-right: 0">
       <el-row>
         <div class="menu-header">
         <div style="float: left;margin-left: 20px;">
@@ -26,7 +26,8 @@
         </div>
       </el-row>
       <div style="height: 100%">
-        <component :is="activeComponent"></component>
+        <!--<component :is="activeComponent"></component>-->
+        <JobsVisualization></JobsVisualization>
       </div>
     </el-col>
   </el-row>
@@ -105,9 +106,10 @@
   }
   .userImage{
     float: right;
-    margin-right: 20px;
+    margin-right: 3%;
     margin-top: 10px;
   }
+
   /*.el-input-style{*/
     /*height: 20px;*/
     /*font-size: 13px;*/

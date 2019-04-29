@@ -60,19 +60,35 @@
           <el-col :span="12"><JobCard></JobCard></el-col>
           <el-col :span="12"><JobCard></JobCard></el-col>
         </el-row>
+        <el-row>
+          <el-button type="text" style="color: #8693F3;">查看更多</el-button>
+          <!--<el-button type="primary" class="card-more-bt">查看更多</el-button>-->
+        </el-row>
       </el-col>
       <el-col :span="8" class="el-row-content-data-rect">
         <el-row>
           <div id="newJobsChart" class="recommed-chart"></div>
         </el-row>
+        <el-row><span class="el-table-title">企业新增岗位排名</span></el-row>
         <el-row :gutter="24">
           <!--<div id="companyRankChart" class="recommed-chart"></div>-->
-          <el-table>
-            
+          <el-table
+            :data="tableData"
+            id="companyRankTable"
+            row-style="height:10px"
+            style="width: 100%">
+            <el-table-column
+              prop="rank"
+              width="40">
+            </el-table-column>
+            <el-table-column
+              prop="companyName"
+              width="210">
+            </el-table-column>
+            <el-table-column
+              prop="newJobsNum">
+            </el-table-column>
           </el-table>
-          <el-col><span>1</span></el-col>
-          <el-col><span>公司名称</span></el-col>
-          <el-col><span>岗位数</span></el-col>
         </el-row>
       </el-col>
     </el-row>
@@ -90,6 +106,47 @@
       data(){
         return{
           recommendjobs:'12345',
+          tableData: [{
+            rank: '1',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          }, {
+            rank: '2',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          }, {
+            rank: '3',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          }, {
+            rank: '4',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          },{
+            rank: '5',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          },{
+            rank: '6',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          },{
+            rank: '7',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          },{
+            rank: '8',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          },{
+            rank: '9',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          },{
+            rank: '10',
+            companyName: '北明软件有限公司成都分公司',
+            newJobsNum: '10000'
+          }]
         }
       },
       methods:{
@@ -250,7 +307,7 @@
 
 <style scoped>
   #main-content{
-    width: 99%;
+    width: 97%;
     height: 100%;
     /*background: aquamarine;*/
     margin-top:10px;
@@ -298,5 +355,35 @@
     width: 320px;
     height: 250px;
   }
+  .el-table-title{
+    font-size: 15px;
+    /*margin-left: 10px;*/
+    float:left;
+  }
+  .card-more-bt{
+    height: 30px;
+    margin-top: 10px;
+    background: #FFFFFF;
+    border: 1px #8693F3 solid;
+    line-height: 0;
+    color: #8693F3;
+  }
 
+
+</style>
+<style>
+  .el-table{
+    border:none;
+  }
+  .el-table td ,.el-table th{
+    padding: 0 0;
+    border:1px solid #FFFFFF;
+
+  }
+  .el-table th.is-leaf{
+    border-bottom: none;
+  }
+  .el-table::before{
+    height: 0;
+  }
 </style>
