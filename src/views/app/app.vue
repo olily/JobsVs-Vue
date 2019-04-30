@@ -26,8 +26,7 @@
         </div>
       </el-row>
       <div style="height: 100%">
-        <!--<component :is="activeComponent"></component>-->
-        <JobsVisualization></JobsVisualization>
+        <component :is="activeComponent"></component>
       </div>
     </el-col>
   </el-row>
@@ -67,8 +66,9 @@
             component: JobsRecommend,
           },
         ],
-        defaultIndex: '1',
-        activeComponent : JobsRecommend,
+        defaultIndex: '3',
+        activeComponent : JobsVisualization,
+        input1: '',
       };
     },
     components:
