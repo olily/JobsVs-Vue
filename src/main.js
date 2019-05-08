@@ -6,26 +6,23 @@ import mock from '../mock/mock.js'
 import $ from 'jquery';
 //全局引入vue
 import Vue from 'vue';
+import echarts from 'echarts';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
-import echarts from 'echarts';
+
 
 Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts;
 //全局引入路由配置
 import router from './router';
 
-
-
 //全局状态控制引入
 import store from './store/store';
-
 
 //全局加载resource拦截器
 import './axios/';
 import Axios from 'axios';
 Vue.prototype.$http = Axios;
-
 
 //引入需要渲染的视图组件
 import App from './App';
