@@ -16,7 +16,6 @@ const userInfo = {
             id:cookie.getCookie('id') || null,
             name:cookie.getCookie('name') || null,
             token:cookie.getCookie('token') || null,
-            isSuperUser:cookie.getCookie('isSuperUser') || null
         };
 const userAcceptedProblems = localStorage.getItem('acceptedproblems') || null;
 const userChallengingProblems = localStorage.getItem('challengingproblems') || null;

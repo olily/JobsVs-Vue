@@ -9,10 +9,15 @@ import Vue from 'vue';
 import echarts from 'echarts';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import china from 'echarts/map/json/china.json'
+
+
+
 
 
 Vue.use(ElementUI);
 Vue.prototype.$echarts = echarts;
+echarts.registerMap('china',china);
 //全局引入路由配置
 import router from './router';
 

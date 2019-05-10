@@ -16,7 +16,7 @@ Vue.use(Router);
 import app from '../views/app/app';
 import Login from '../views/Login';
 // import Login from "@/views/Login";
-import JobCard from  "../components/recommend/JobCard"
+import test from  "../views/test"
 
 //全局状态控制引入
 import store from '../store/store'
@@ -34,13 +34,17 @@ let router = new Router({
     {
       path: '/app',
       component: app,
+      meta: {
+        title: "App",
+        need_log: true
+      },
       children: [
         {
           path: 'home',
           name: 'home',
           meta: {
             title: "Home",
-            need_log: false
+            need_log: true
           },
         },
       ]
@@ -48,11 +52,15 @@ let router = new Router({
     ,{
       path: '/Login',
       name: 'Login',
-      component:Login
+      component:Login,
+      meta: {
+        title: "Login",
+        need_log: false
+      },
     },{
-      path: '/Test',
-      name: 'JobCard',
-      component:JobCard
+      path: '/tTest',
+      name: 'test',
+      component:test
     }
   ]
 });
@@ -64,10 +72,11 @@ router.beforeEach((to, from, next) => {
       if (to.meta.need_log) {
         console.log(to.meta.need_log);
         console.log("需要登陆");
+        console.log(store.state.userInfo.token);
         if (!store.state.userInfo.token) {
           console.log("没有登陆");
           next({
-            path: '/app',
+            path: '/Login',
           });
         } else {
           console.log("登陆了");

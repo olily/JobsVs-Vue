@@ -1,6 +1,5 @@
 import * as types from './mutation-types';
 import cookie from '../static/js/cookie';
-import {getShopCarts} from '../api/api'
 // 类似于事件 每个mutation都有字符类型的事件类型和回调函数
 //全局引入vue
 import Vue from 'vue';
@@ -13,8 +12,7 @@ export default {
         state.userInfo = {
             id:cookie.getCookie('id'),
             name:cookie.getCookie('name'),
-            token:cookie.getCookie('token'),
-            isSuperUser:cookie.getCookie('isSuperUser')
+            token:cookie.getCookie('token')
         };
     },
     [types.SET_ACCEPTEDPROBLEMS] (state) {

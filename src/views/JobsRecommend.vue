@@ -14,7 +14,7 @@
       <el-col :span="6">
         <div class = "rect-myrecommend rect2">
           <el-row class="el-row-h1-title">
-            急聘岗位
+            活跃企业
           </el-row>
           <el-row class="el-row-h2-data">
             {{recommendjobs}}个
@@ -24,7 +24,7 @@
       <el-col :span="6">
         <div class = "rect-myrecommend rect3">
           <el-row class="el-row-h1-title">
-            公司推荐
+            昨日新增
           </el-row>
           <el-row class="el-row-h2-data">
             {{recommendjobs}}个
@@ -34,7 +34,7 @@
       <el-col :span="6">
         <div class = "rect-myrecommend rect4">
           <el-row class="el-row-h1-title">
-            今日新增
+            企业心选
           </el-row>
           <el-row class="el-row-h2-data">
             {{recommendjobs}}个
