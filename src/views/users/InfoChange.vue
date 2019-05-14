@@ -138,14 +138,13 @@
           user: this.$store.state.userInfo['id']
         }).then((response)=> {
           let data = response.data;
-          console.log("data data",data);
           if (data.results.length>0){
             let result = data.results[0];
             this.userProfileId = result['id'];
             this.eduValue = result['education'].toString();
             this.school = result['school'];
             this.sex = result['sex'].toString();
-            this.birthday = new Date((result['birthday']==null)?"1970-01-01":result['birthday']);
+            this.birthday = result['birthday'];
             this.workyear = result['work_year'];
             this.cityArray = [result['province'],result['city']];
           }
@@ -175,13 +174,20 @@
           console.log("error",error);
         });
       },
+      fmtDate(obj){
+        let date =  new Date(obj);
+        let y = 1900+date.getYear();
+        let m = "0"+(date.getMonth()+1);
+        let d = "0"+date.getDate();
+        return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
+      },
       saveHandler(){
         updateUserProfile(this.userProfileId,{
           work_year: this.workyear,
           school: this.school,
           sex: this.sex,
           city: this.cityArray[1],
-          // birthday: this.birthday,
+          birthday: this.fmtDate(this.birthday),
           education: this.eduValue
         }).then((response)=> {
           if(response.status === 200){

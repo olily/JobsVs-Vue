@@ -129,6 +129,7 @@
 </template>
 <script>
   import JobsVisualization from "@/views/JobsVisualization"
+  import CompanyVisualization from "@/views/CompanyVisualization"
   import UserHome from "@/views/UserHome"
   import JobsRecommend from "@/views/JobsRecommend"
   import test from "@/views/test"
@@ -183,7 +184,7 @@
             name: "企业分析",
             index: "4",
             icon: "el-icon-s-grid",
-            component: JobsRecommend,
+            component: CompanyVisualization,
           },
           {
             name: "测试",
@@ -279,7 +280,8 @@
         JobsRecommend,
         CollectList,
         InfoChange,
-        UserProfile
+        UserProfile,
+        CompanyVisualization
       },
     created(){
       let userInfo = this.$store.state.userInfo;

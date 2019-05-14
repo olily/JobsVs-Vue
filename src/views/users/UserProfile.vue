@@ -42,9 +42,9 @@
               </div>
             </el-col>
             <el-col :span="12">
-              <el-row class="info_span"><span>城市:</span></el-row>
-              <el-row class="info_span" style="margin-top: 10px;"><span>行业:</span></el-row>
-              <el-row class="info_span" style="margin-top: 10px;"><span>职能:</span></el-row>
+              <el-row class="info_span"><span>城市:{{want_city}}</span></el-row>
+              <el-row class="info_span" style="margin-top: 10px;"><span>行业:{{want_industry}}</span></el-row>
+              <el-row class="info_span" style="margin-top: 10px;"><span>职能:{{want_jobfunction}}</span></el-row>
             </el-col>
           </el-row>
         </div>
@@ -60,7 +60,7 @@
 </template>
 
 <script>
-  import {getUserProfile} from '../../api/api'
+  import {getUserProfile,getUserWantJob} from '../../api/api'
   export default {
     name: "UserProfile",
     data(){
@@ -76,6 +76,9 @@
           "男",
           "女"
         ],
+        want_city: '',
+        want_industry: '',
+        want_jobfunction: ''
       }
     },
     mounted(){
@@ -84,6 +87,7 @@
     },
     created(){
       this.getUserProfileId();
+      this.getUserWantJobId();
     },
     methods:{
       getUserProfileId(){
@@ -91,6 +95,7 @@
           user: this.$store.state.userInfo['id']
         }).then((response)=> {
           let data = response.data;
+          console.log(data);
           if (data.results.length>0){
             let result = data.results[0];
             this.email = result['email'];
@@ -101,6 +106,22 @@
             this.workyear = result['work_year'];
             this.edcation = result['education_name'];
             console.log(result);
+          }
+        }).catch(function (error)
+        {
+          console.log(error);
+        })
+      },
+      getUserWantJobId(){
+        getUserWantJob({
+          user: this.$store.state.userInfo['id']
+        }).then((response)=> {
+          let data = response.data;
+          if (data.length>0){
+            let result = data[0];
+            this.want_city = result['city_name'];
+            this.want_industry = result['industry_name'];
+            this.want_jobfunction = result['jobfunction_name'];
           }
         }).catch(function (error)
         {
