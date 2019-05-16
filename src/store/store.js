@@ -17,15 +17,13 @@ const userInfo = {
             name:cookie.getCookie('name') || null,
             token:cookie.getCookie('token') || null,
         };
-const userAcceptedProblems = localStorage.getItem('acceptedproblems') || null;
-const userChallengingProblems = localStorage.getItem('challengingproblems') || null;
-const userCollections = localStorage.getItem('collections') || null;
+const userCollectJobs = localStorage.getItem('collectjob') || null;
+const userFocusCompanies = localStorage.getItem('focuscompanies') || null;
 const state = {
     topnavigation:"/",
     userInfo,
-    userAcceptedProblems,
-    userChallengingProblems,
-    userCollections,
+    userCollectJobs,
+    userFocusCompanies,
 };
 export default new Vuex.Store({
 	state,

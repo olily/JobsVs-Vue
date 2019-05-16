@@ -5,17 +5,9 @@
 export const userInfo = state => {
 	return state.userInfo;
 };
-export const userAcceptedProblems = state => {
-  return state.userAcceptedProblems;
+export const userCollectJobs = state => {
+  return state.userCollectJobs;
 };
-export const userChallengingProblems = state => {
-  return state.userChallengingProblems;
+export const userFocusCompanies = state => {
+  return state.userFocusCompanies;
 };
-export const userCollections = state => {
-  return state.userCollections;
-};
-
-export const goods_list = state => {
-  console.log(state.goods_list)
-  return state.goods_list;
-}

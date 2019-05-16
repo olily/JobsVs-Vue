@@ -3,14 +3,14 @@ import axios from 'axios';
 
 let host = '/api';
 
-//获取题目列表
-export const getProblems = params => { return axios.get(`${host}/problems/`,{ params: params  })};
+//获取工作
+export const getJobs = params => { return axios.get(`${host}/jobs/`,{ params: params  })};
 
 //获取题目信息
 export const getProblemDetail = problemId => { return axios.get(`${host}/problems/${problemId}`+'/')};
 
-//获取提交列表
-export const getSubmissions = params => { return axios.get(`${host}/submissions/`,{ params: params  })};
+//获取公司
+export const getCompanies = params => { return axios.get(`${host}/company/`,{ params: params  })};
 
 //获取提交信息
 export const getSubmissionDetail = submissionId => { return axios.get(`${host}/submissions/${submissionId}`+'/')};

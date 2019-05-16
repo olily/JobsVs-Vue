@@ -15,33 +15,10 @@ export default {
             token:cookie.getCookie('token')
         };
     },
-    [types.SET_ACCEPTEDPROBLEMS] (state) {
-      state.userAcceptedProblems = JSON.parse(localStorage.getItem('acceptedproblems'));
+    [types.SET_COLLECTJOBS] (state) {
+      state.userCollectJobs = JSON.parse(localStorage.getItem('collectjob'));
     },
-    [types.SET_CHALLENGINGPROBLEMS] (state) {
-      state.userChallengingProblems = JSON.parse(localStorage.getItem('challengingproblems'));
+    [types.SET_FOCUSCOMPANIES] (state) {
+      state.userFocusCompanies = JSON.parse(localStorage.getItem('focuscompanies'));
     },
-    [types.SET_COLLECTIONS] (state) {
-      state.userCollections = JSON.parse(localStorage.getItem('collections'));
-    },
-    [types.SET_SHOPLIST] (state) { //设置购物车数据
-        // token = cookie.getCookie('token')
-        if(cookie.getCookie('token') != null){
-          getShopCarts().then((response)=> {
-            // 更新store数据
-            state.goods_list.goods_list = response.data;
-            console.log(response.data)
-            var totalPrice = 0
-            response.data.forEach(function(entry) {
-              totalPrice += entry.goods.shop_price*entry.nums
-            });
-            state.goods_list.totalPrice = totalPrice;
-
-          }).catch(function (error) {
-            console.log(error);
-          });
-        }
-    },
-
-
 }
