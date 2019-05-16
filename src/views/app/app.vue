@@ -186,12 +186,12 @@
             icon: "el-icon-s-grid",
             component: CompanyVisualization,
           },
-          {
-            name: "测试",
-            index: "5",
-            icon: "el-icon-s-grid",
-            component: test,
-          },
+          // {
+          //   name: "测试",
+          //   index: "5",
+          //   icon: "el-icon-s-grid",
+          //   component: test,
+          // },
         ],
         defaultIndex: '3',
         activeComponent : JobsVisualization,

@@ -3,7 +3,7 @@
     <div class="info_div">
       <el-row gutter="24">
         <el-col :span="8" style="margin-top: 10px">
-          <el-row><img src="../../static/images/company/co144024.gif"></el-row>
+          <el-row><img src="../../static/images/user/Simona.png"></el-row>
           <el-row><span style="font-size: 16px">重新上传头像</span></el-row>
           <el-row>
             <el-upload

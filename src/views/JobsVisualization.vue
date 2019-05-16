@@ -458,9 +458,7 @@
             animationEasingUpdate: 'cubicInOut',
             title: [
               {
-                text: '全国主要城市 PM 2.5',
-                subtext: 'data from PM25.in',
-                sublink: 'http://www.pm25.in',
+                text: '全国薪资分布',
                 left: 'center',
                 textStyle: {
                   color: '#fff'
@@ -712,31 +710,38 @@
             dataset: {
               source: [
                 ['score', 'amount', 'product'],
-                [89.3, 58212, '成都'],
-                [57.1, 78254, '上海'],
-                [74.4, 41032, '北京'],
-                [50.1, 12755, '杭州'],
-                [89.7, 20145, '广州'],
-                [68.1, 79146, '深圳'],
-                [19.6, 91852, '苏州'],
-                [10.6, 101852, '青岛'],
-                [32.7, 20112, '重庆']
+                [89.3, 58212, '会计/金融/银行/保险'],
+                [57.1, 78254, '贸易/消费/制造/营运'],
+                [74.4, 41032, '制药/医疗'],
+                [50.1, 12755, '广告/媒体'],
+                [89.7, 20145, '房地产/建筑'],
+                [68.1, 79146, '专业服务/教育/培训'],
+                [19.6, 91852, '服务业'],
+                [10.6, 101852, '青计算机/互联网/通信/电子'],
+                [32.7, 20112, '能源/原材料'],
+                [32.7, 20112, '政府/非营利组织/其他']
               ]
             },
             grid: {containLabel: true},
             xAxis: {name: 'amount',show: false},
-            yAxis: {type: 'category'},
+            yAxis: {
+              type: 'category',
+              axisLabel:{
+                // rotate:1,
+                interval:0
+              },
+            },
             visualMap: {
               orient: 'horizontal',
               left: 'center',
               min: 10,
               max: 100,
-              text: ['High Score', 'Low Score'],
+              text: ['High salary', 'Low salary'],
               // Map the score column to color
               dimension: 0,
               inRange: {
                 color: ['#D7DA8B', '#E15457']
-              }
+              },
             },
             series: [
               {
@@ -766,7 +771,7 @@
             legend: {
               x : 'center',
               y : 'bottom',
-              data:['rose1','rose2','rose3','rose4']
+              data:['无要求','初中及以下','高中/中技/中专','大专','本科','硕士','博士']
             },
             // toolbox: {
             //   show : true,
@@ -806,10 +811,13 @@
                 //   }
                 // },
                 data:[
-                  {value:10, name:'rose1'},
-                  {value:20, name:'rose2'},
-                  {value:15, name:'rose3'},
-                  {value:25, name:'rose4'},
+                  {value:20900, name:'无经验'},
+                  {value:8000, name:'初中及以下'},
+                  {value:5000, name:'高中/中技/中专'},
+                  {value:25000, name:'大专'},
+                  {value:20000, name:'本科'},
+                  {value:9000, name:'硕士'},
+                  {value:7000, name:'博士'},
                 ]
               }
               // {
@@ -841,13 +849,17 @@
             },
             xAxis: {
               type: 'category',
-              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+              data: ['无要求','初中及以下','高中/中技/中专','大专','本科','硕士','博士'],
+              axisLabel:{
+                rotate:30,
+                interval:0
+              },
             },
             yAxis: {
               type: 'value'
             },
             series: [{
-              data: [120, 200, 150, 80, 70, 110, 130],
+              data: [2500,3100,3378,5738,6452,8716,10020],
               type: 'bar'
             }]
             }

@@ -36,7 +36,7 @@ let router = new Router({
       component: app,
       meta: {
         title: "App",
-        need_log: true
+        need_log: false
       },
       children: [
         {
@@ -44,7 +44,7 @@ let router = new Router({
           name: 'home',
           meta: {
             title: "Home",
-            need_log: true
+            need_log: false
           },
         },
       ]

@@ -7,7 +7,7 @@
               <el-col ><div class="grid-content bg-purple logindiv">
                 <el-form :model="loginform"  ref="loginform" label-width="80px" class="demo-ruleForm">
                   <el-form-item label="用户名:" prop="user" class="el-form-item-margin" >
-                    <el-input v-model="loginform.user" clearable style="width: 200px;" placeholder="请输入邮箱"></el-input>
+                    <el-input v-model="loginform.user" clearable style="width: 200px;" placeholder="请输入邮箱/账号"></el-input>
                   </el-form-item>
                   <el-form-item label="密  码:" prop="password" class="el-form-item-margin">
                     <el-input v-model="loginform.password" clearable type="password" style="width: 200px;" placeholder="请输入密码"></el-input>
