@@ -16,7 +16,7 @@ export default {
         };
     },
     [types.SET_COLLECTJOBS] (state) {
-      state.userCollectJobs = JSON.parse(localStorage.getItem('collectjob'));
+      state.userCollectJobs = JSON.parse(localStorage.getItem('collectjobs'));
     },
     [types.SET_FOCUSCOMPANIES] (state) {
       state.userFocusCompanies = JSON.parse(localStorage.getItem('focuscompanies'));

@@ -64,7 +64,7 @@
 
 <script>
   import SIdentify from '../components/common/Identify'
-  import {login, register,getUser} from '../api/api'
+  import {login, register,getUser,getCollectJobs,getFocusCompanies} from '../api/api'
   import cookie from '../static/js/cookie'
 
     // export const validator={
@@ -122,6 +122,7 @@
               { required: true, message: '请输入验证码', trigger: 'blur' },
               { min: 4, max: 4, message: '长度在4个字符', trigger: 'blur' }
             ],
+            that: this,
           }
         }
       },
@@ -151,8 +152,10 @@
               }).then((res) => {
                 cookie.setCookie('id', res.data[0].id, 7);
                 this.$store.dispatch('setInfo');
+                this.getCollectJob();
+                this.getFocusCompany();
                 this.$message.success('登陆成功');
-                this.$router.push("/app/");
+                this.sleepRoute();
               }).catch((function (err) {
               }));
             }).catch(function (error) {
@@ -160,6 +163,12 @@
               that.$message.error('账号或密码错误')
             });
           }
+        },
+        sleepRoute(){
+          let that = this;
+          setTimeout(function (){
+            that.$router.push("/app/");
+          }, 2000);
         },
         registerHandler(){
           if (this.registerform.identifyCodeinput.length !== 4){//验证码
@@ -191,11 +200,51 @@
             })
           }
         },
+        delStores(){
+          cookie.delCookie('id');
+          cookie.delCookie('token');
+          cookie.delCookie('name');
+          localStorage.removeItem('collectjobs');
+          localStorage.removeItem('focuscompanies');
+          this.$store.dispatch('setInfo');
+          this.$store.dispatch('setCollectJobs');
+          this.$store.dispatch('setFocusCompanies');
+        },
         registerClickHandler(){
           this.logOrReg = false;
         },
         loginClickHandler(){
           this.logOrReg = true;
+        },
+        getFocusCompany() {
+          getFocusCompanies({
+            user: this.$store.state.userInfo['id'],
+          }).then((response)=> {
+            let data = response.data;
+            let focuscompanies = {};
+            for( let focuscompany of data){
+              focuscompanies[focuscompany['id']] = focuscompany['create_time'];
+            }
+            localStorage.setItem('focuscompanies',JSON.stringify(focuscompanies));
+            this.$store.dispatch('setFocusCompanies');
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        getCollectJob() {
+          getCollectJobs({
+            user: this.$store.state.userInfo['id'],
+          }).then((response)=> {
+            let data = response.data;
+            let collectjobs = {};
+            for( let collectjob of data){
+              collectjobs[collectjob['id']] = collectjob['create_time'];
+            }
+            localStorage.setItem('collectjobs',JSON.stringify(collectjobs));
+            this.$store.dispatch('setCollectJobs');
+          }).catch(function (error) {
+            console.log(error);
+          });
         },
         submitForm(loginform) {
           this.$refs[loginform].validate((valid) => {
@@ -229,10 +278,7 @@
         },
       },
       created(){
-        cookie.delCookie('id');
-        cookie.delCookie('token');
-        cookie.delCookie('name');
-        this.$store.dispatch('setInfo');
+        this.delStores();
       },
       mounted() {
         this.identifyCode = "";

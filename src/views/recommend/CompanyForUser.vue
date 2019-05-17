@@ -13,30 +13,28 @@
         </el-table-column>
         <el-table-column
           prop="city_name"
-          label="城市"
-          :formatter="formatter">
+          label="城市">
         </el-table-column>
         <el-table-column
           prop="size_name"
-          label="规模"
-          :formatter="formatter">
+          label="规模">
         </el-table-column>
         <el-table-column
           prop="quality_name"
-          label="性质"
-          :formatter="formatter">
+          label="性质">
         </el-table-column>
         <el-table-column
           prop="count_jobs"
-          label="新增岗位数"
-          :formatter="formatter">
+          label="新增岗位数">
           10
         </el-table-column>
         <el-table-column
-          prop="collect_time"
-          label="关注时间"
-          :formatter="formatter">
-          2019-05-05 09:00:00
+          label="关注时间">
+          <template slot-scope="scope">
+            <div v-if="that.$store.state.userFocusCompanies!==null&&that.$store.state.userFocusCompanies.hasOwnProperty(companies[scope.$index].id)">
+              {{that.$store.state.userFocusCompanies[companies[scope.$index].id]}}
+            </div>
+          </template>
         </el-table-column>
         <el-table-column
           align="right">
@@ -45,17 +43,17 @@
               v-model="search"
               size="mini"
               prefix-icon="el-icon-search"
-              placeholder="搜索岗位"/>
+              placeholder="搜索岗位"></el-input>
           </template>
           <template slot-scope="scope">
             <el-button
+              v-if="that.$store.state.userFocusCompanies!==null&&that.$store.state.userFocusCompanies.hasOwnProperty(companies[scope.$index].id)"
               size="mini"
-              @click.native.prevent="deleteRow(scope.$index, tableData)"
-            >删除</el-button>
-<!--            <el-button-->
-<!--              size="mini"-->
-<!--              type="danger"-->
-<!--              @click="handleDelete(scope.$index, scope.row)">收藏</el-button>-->
+              @click.native.prevent="delFocusCompanyHandler(scope.$index)">删除</el-button>
+            <el-button v-else
+              size="mini"
+              type="danger"
+              @click.native.prevent="addFocusCompanyHandler(scope.$index)">收藏</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -74,38 +72,84 @@
 </template>
 
 <script>
-  import {getCompanies} from '../../api/api'
+  import {delFocusCompany, getCompanies, addFocusCompany, getFocusCompanies} from '../../api/api'
   export default {
     name: "CompanyForUser",
     data(){
       return{
+        search: '',
         companies: [],
+        curPage: 1,
         pageSize: 5,
         total: 1000,
+        that: this,
       }
     },
     created() {
-      this.getCompany();
+      this.getCompany(this.curPage);
     },
     methods:{
-      getCompany() {
+      getCompany(e) {
         getCompanies({
+          page: e
         }).then((response)=> {
           let data = response.data;
           this.companies = data.results;
           this.total = data.count;
-          console.log(this.companies);
         }).catch(function (error) {
           console.log(error);
         });
       },
       currentChangeHandler(e){
+        this.curPage = e;
         getCompanies({
           page: e,
         }).then((response)=> {
           let data = response.data;
           this.companies = data.results;
           this.total = data.count;
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+      delFocusCompanyHandler(index) {
+        getFocusCompanies({
+          user: this.$store.state.userInfo['id'],
+          company: this.companies[index].id
+        }).then((response)=> {
+          let data = response.data;
+          if (data.length>0){
+            let focuscompanyId = data[0]['id'];
+            delFocusCompany(
+              focuscompanyId
+            ).then((response)=>{
+              delete this.$store.state.userFocusCompanies[this.companies[index].id];
+              localStorage.setItem('collectjobs',JSON.stringify(this.$store.state.userFocusCompanies));
+              this.$store.dispatch('setCollectJobs');
+              this.$message.success("取消关注成功");
+              this.getCompany(this.curPage);
+            }).catch(function (error) {
+              console.log(error);
+            });
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+      addFocusCompanyHandler(index) {
+        addFocusCompany({
+          user: this.$store.state.userInfo['id'],
+          company: this.companies[index].id
+        }).then((response)=> {
+          let data = response.data;
+          if (this.$store.state.userFocusCompanies==null){
+            this.$store.state.userFocusCompanies={};
+          }
+          this.$store.state.userFocusCompanies[this.companies[index].id] = data['create_time'];
+          localStorage.setItem('collectjobs',JSON.stringify(this.$store.state.userFocusCompanies));
+          this.$store.dispatch('setCollectJobs');
+          this.$message.success("关注成功");
+          this.getCompany(this.curPage);
         }).catch(function (error) {
           console.log(error);
         });
