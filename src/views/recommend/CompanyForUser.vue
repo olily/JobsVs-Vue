@@ -53,7 +53,7 @@
             <el-button v-else
               size="mini"
               type="danger"
-              @click.native.prevent="addFocusCompanyHandler(scope.$index)">收藏</el-button>
+              @click.native.prevent="addFocusCompanyHandler(scope.$index)">关注</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -81,7 +81,7 @@
         companies: [],
         curPage: 1,
         pageSize: 5,
-        total: 1000,
+        total: 10000,
         that: this,
       }
     },
@@ -91,7 +91,7 @@
     methods:{
       getCompany(e) {
         getCompanies({
-          page: e
+          page: e,
         }).then((response)=> {
           let data = response.data;
           this.companies = data.results;
@@ -124,10 +124,9 @@
               focuscompanyId
             ).then((response)=>{
               delete this.$store.state.userFocusCompanies[this.companies[index].id];
-              localStorage.setItem('collectjobs',JSON.stringify(this.$store.state.userFocusCompanies));
-              this.$store.dispatch('setCollectJobs');
+              localStorage.setItem('focuscompanies',JSON.stringify(this.$store.state.userFocusCompanies));
+              this.$store.dispatch('setFocusCompanies');
               this.$message.success("取消关注成功");
-              this.getCompany(this.curPage);
             }).catch(function (error) {
               console.log(error);
             });
@@ -146,10 +145,9 @@
             this.$store.state.userFocusCompanies={};
           }
           this.$store.state.userFocusCompanies[this.companies[index].id] = data['create_time'];
-          localStorage.setItem('collectjobs',JSON.stringify(this.$store.state.userFocusCompanies));
-          this.$store.dispatch('setCollectJobs');
+          localStorage.setItem('focuscompanies',JSON.stringify(this.$store.state.userFocusCompanies));
+          this.$store.dispatch('setFocusCompanies');
           this.$message.success("关注成功");
-          this.getCompany(this.curPage);
         }).catch(function (error) {
           console.log(error);
         });

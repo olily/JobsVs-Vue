@@ -122,7 +122,6 @@
               { required: true, message: '请输入验证码', trigger: 'blur' },
               { min: 4, max: 4, message: '长度在4个字符', trigger: 'blur' }
             ],
-            that: this,
           }
         }
       },
@@ -155,7 +154,7 @@
                 this.getCollectJob();
                 this.getFocusCompany();
                 this.$message.success('登陆成功');
-                this.sleepRoute();
+                this.$router.push("/app/");
               }).catch((function (err) {
               }));
             }).catch(function (error) {
@@ -163,12 +162,6 @@
               that.$message.error('账号或密码错误')
             });
           }
-        },
-        sleepRoute(){
-          let that = this;
-          setTimeout(function (){
-            that.$router.push("/app/");
-          }, 2000);
         },
         registerHandler(){
           if (this.registerform.identifyCodeinput.length !== 4){//验证码
@@ -223,7 +216,7 @@
             let data = response.data;
             let focuscompanies = {};
             for( let focuscompany of data){
-              focuscompanies[focuscompany['id']] = focuscompany['create_time'];
+              focuscompanies[focuscompany['company']] = focuscompany['create_time'];
             }
             localStorage.setItem('focuscompanies',JSON.stringify(focuscompanies));
             this.$store.dispatch('setFocusCompanies');
@@ -238,7 +231,7 @@
             let data = response.data;
             let collectjobs = {};
             for( let collectjob of data){
-              collectjobs[collectjob['id']] = collectjob['create_time'];
+              collectjobs[collectjob['job']] = collectjob['create_time'];
             }
             localStorage.setItem('collectjobs',JSON.stringify(collectjobs));
             this.$store.dispatch('setCollectJobs');

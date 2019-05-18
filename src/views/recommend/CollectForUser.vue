@@ -3,45 +3,39 @@
     <div>
       <el-table
         class="table_div"
-        :data="tableJob"
+        :data="jobs"
         style="width: 100%;height: 410px;"
-        :default-sort = "{prop: 'date', order: 'descending'}"
       >
         <el-table-column
-          prop="job_name"
+          prop="name"
           label="岗位"
-          sortable
         >
         </el-table-column>
         <el-table-column
-          prop="company"
-          label="企业"
-          :formatter="formatter">
+          prop="company_name"
+          label="企业">
         </el-table-column>
         <el-table-column
-          prop="city"
-          label="城市"
-          sortable>
+          prop="city_name"
+          label="城市">
         </el-table-column>
         <el-table-column
-          prop="salary"
-          label="薪资"
-          :formatter="formatter">
+          label="薪资">
+          <template slot-scope="scope">
+            {{jobs[scope.$index].salary_low}}-{{jobs[scope.$index].salary_high}}
+          </template>
         </el-table-column>
         <el-table-column
           prop="work_year"
-          label="工作经验"
-          :formatter="formatter">
+          label="工作经验">
         </el-table-column>
         <el-table-column
-          prop="education"
-          label="学历"
-          :formatter="formatter">
+          prop="edu_name"
+          label="学历">
         </el-table-column>
         <el-table-column
           prop="put_time"
-          label="发布时间"
-          :formatter="formatter">
+          label="发布时间">
         </el-table-column>
         <el-table-column
           align="right">
@@ -50,49 +44,28 @@
               v-model="search"
               size="mini"
               prefix-icon="el-icon-search"
-              placeholder="搜索岗位"/>
+              placeholder="搜索岗位"></el-input>
           </template>
           <template slot-scope="scope">
             <el-button
+              v-if="that.$store.state.userCollectJobs!==null&&that.$store.state.userCollectJobs.hasOwnProperty(jobs[scope.$index].id)"
               size="mini"
-              @click.native.prevent="deleteRow(scope.$index, tableData)"
-            >删除</el-button>
-            <el-button
-              size="mini"
-              type="danger"
-              @click="handleDelete(scope.$index, scope.row)">收藏</el-button>
+              @click.native.prevent="delCollectJobHandler(scope.$index)">删除</el-button>
+            <el-button v-else
+                       size="mini"
+                       type="danger"
+                       @click.native.prevent="addCollectJobHandler(scope.$index)">收藏</el-button>
           </template>
         </el-table-column>
-        <!--<el-table-column-->
-        <!--fixed="right"-->
-        <!--label="操作"-->
-        <!--&gt;-->
-        <!--<template slot-scope="scope">-->
-        <!--<el-button-->
-        <!--@click.native.prevent="deleteRow(scope.$index, tableData)"-->
-        <!--type="text"-->
-        <!--size="small">-->
-        <!--删除-->
-        <!--</el-button>-->
-        <!--<el-button-->
-        <!--@click.native.prevent="deleteRow(scope.$index, tableData)"-->
-        <!--type="text"-->
-        <!--size="small">-->
-        <!--收藏-->
-        <!--</el-button>-->
-        <!--</template>-->
-        <!--</el-table-column>-->
       </el-table>
       <div class="block">
         <span class="demonstration"></span>
-        <el-pagination
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage4"
-          :page-sizes="[100, 200, 300, 400]"
-          :page-size="100"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="400">
+        <el-pagination background layout="prev, pager, next"
+                       @current-change="currentChangeHandler"
+                       @prev-click="currentChangeHandler"
+                       @next-click="currentChangeHandler"
+                       :total="total"
+                       :page-size="pageSize">
         </el-pagination>
       </div>
     </div>
@@ -100,8 +73,87 @@
 </template>
 
 <script>
+  import {delCollectJob, getJobs, addCollectJob, getCollectJobs} from '../../api/api'
   export default {
-    name: "CollectForUser"
+    name: "CollectForUser",
+    data(){
+      return{
+        search: '',
+        jobs: [],
+        curPage: 1,
+        pageSize: 5,
+        total: 1000,
+        that: this,
+      }
+    },
+    created() {
+      this.getJob(this.curPage);
+    },
+    methods:{
+      getJob(e) {
+        getJobs({
+          page: e
+        }).then((response)=> {
+          let data = response.data;
+          this.jobs = data.results;
+          this.total = data.count;
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+      currentChangeHandler(e){
+        this.curPage = e;
+        getJobs({
+          page: e,
+        }).then((response)=> {
+          let data = response.data;
+          this.jobs = data.results;
+          this.total = data.count;
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+      delCollectJobHandler(index) {
+        getCollectJobs({
+          user: this.$store.state.userInfo['id'],
+          job: this.jobs[index].id
+        }).then((response)=> {
+          let data = response.data;
+          if (data.length>0){
+            let collectjobId = data[0]['id'];
+            delCollectJob (
+              collectjobId
+            ).then((response)=>{
+              delete this.$store.state.userCollectJobs[this.jobs[index].id];
+              localStorage.setItem('collectjobs',JSON.stringify(this.$store.state.userCollectJobs));
+              this.$store.dispatch('setCollectJobs');
+              this.$message.success("取消收藏成功");
+            }).catch(function (error) {
+              console.log(error);
+            });
+          }
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+      addCollectJobHandler(index) {
+        addCollectJob({
+          user: this.$store.state.userInfo['id'],
+          job: this.jobs[index].id
+        }).then((response)=> {
+          let data = response.data;
+          if (this.$store.state.userCollectJobs==null){
+            this.$store.state.userCollectJobs={};
+          }
+          this.$store.state.userCollectJobs[this.jobs[index].id] = data['create_time'];
+          localStorage.setItem('collectjobs',JSON.stringify(this.$store.state.userCollectJobs));
+          this.$store.dispatch('setCollectJobs');
+          this.$message.success("收藏成功");
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+    }
   }
 </script>
 

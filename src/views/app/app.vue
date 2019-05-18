@@ -316,11 +316,9 @@
           user: this.$store.state.userInfo['id']
         }).then((response)=> {
           let data = response.data;
-          console.log("data",data);
           if (data.length>0){
             let result = data[0];
             this.wantjobId = result['id'];
-            console.log("wantjobId",this.wantjobId);
             this.salary_low = result['want_salary_low'];
             this.salary_high = result['want_salary_high'];
             this.workyearValue = result['want_workyear'].toString();
