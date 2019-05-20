@@ -303,13 +303,20 @@
           case 'c':{this.activeComponent = UserProfile;}break;
           case 'd':{this.activeComponent = InfoChange;}break;
           case 'e':{
-            cookie.delCookie('id');
-            cookie.delCookie('token');
-            cookie.delCookie('name');
-            this.$store.dispatch('setInfo');
+            this.delStores();
             this.$router.push("/Login");
           }break;
         }
+      },
+      delStores(){
+        cookie.delCookie('id');
+        cookie.delCookie('token');
+        cookie.delCookie('name');
+        localStorage.removeItem('collectjobs');
+        localStorage.removeItem('focuscompanies');
+        this.$store.dispatch('setInfo');
+        this.$store.dispatch('setCollectJobs');
+        this.$store.dispatch('setFocusCompanies');
       },
       getUserWantJobId(){
         getUserWantJob({

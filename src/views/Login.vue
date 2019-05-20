@@ -212,10 +212,11 @@
         getFocusCompany() {
           getFocusCompanies({
             user: this.$store.state.userInfo['id'],
+            page_size: 100
           }).then((response)=> {
             let data = response.data;
             let focuscompanies = {};
-            for( let focuscompany of data){
+            for( let focuscompany of data.results){
               focuscompanies[focuscompany['company']] = focuscompany['create_time'];
             }
             localStorage.setItem('focuscompanies',JSON.stringify(focuscompanies));
@@ -227,10 +228,11 @@
         getCollectJob() {
           getCollectJobs({
             user: this.$store.state.userInfo['id'],
+            page_size: 100
           }).then((response)=> {
             let data = response.data;
             let collectjobs = {};
-            for( let collectjob of data){
+            for( let collectjob of data.results){
               collectjobs[collectjob['job']] = collectjob['create_time'];
             }
             localStorage.setItem('collectjobs',JSON.stringify(collectjobs));
