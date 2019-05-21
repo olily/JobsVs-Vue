@@ -6,6 +6,8 @@ import mock from '../mock/mock.js'
 import $ from 'jquery';
 //全局引入vue
 import Vue from 'vue';
+import VueBus from 'vue-bus';
+
 import echarts from 'echarts';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -16,6 +18,7 @@ import china from 'echarts/map/json/china.json'
 
 
 Vue.use(ElementUI);
+Vue.use(VueBus);
 Vue.prototype.$echarts = echarts;
 echarts.registerMap('china',china);
 //全局引入路由配置

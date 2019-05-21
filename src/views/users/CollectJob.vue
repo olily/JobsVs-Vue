@@ -102,10 +102,10 @@
       }
     },
     created() {
-      this.getJob(this.curPage);
+      this.getYesterdayJob(this.curPage);
     },
     methods:{
-      getJob(e) {
+      getYesterdayJob(e) {
         getCollectJobs({
           page: e
         }).then((response)=> {
@@ -119,6 +119,8 @@
       currentChangeHandler(e){
         this.curPage = e;
         getCollectJobs({
+          job__name: this.jobname,
+          job__company__name: this.companyname,
           page: e,
         }).then((response)=> {
           let data = response.data;
@@ -130,6 +132,8 @@
       },
       searchHandle(){
         getCollectJobs({
+          job__name: this.jobname,
+          job__company__name: this.companyname,
         }).then((response)=> {
           let data = response.data;
           this.jobs = data.results;

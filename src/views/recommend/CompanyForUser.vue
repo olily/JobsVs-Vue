@@ -61,9 +61,8 @@
           label="性质">
         </el-table-column>
         <el-table-column
-          prop="count_jobs"
+          prop="yesterday_count"
           label="新增岗位数">
-          10
         </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
@@ -171,15 +170,12 @@
       }
     },
     created() {
-      let user = this.$store.state.userInfo;
-      console.log(user);
-      let com = this.$store.state.userFocusCompanies;
-      console.log(com);
       this.getCompany(this.curPage);
     },
     methods:{
       getCompany(e) {
         getCompanies({
+          ordering: '-yesterday_count',
           name: this.companyname,
           size: this.companysizeValue,
           quality: this.companyqualityValue,
@@ -196,6 +192,7 @@
       currentChangeHandler(e){
         this.curPage = e;
         getCompanies({
+          ordering: '-yesterday_count',
           name: this.companyname,
           size: this.companysizeValue,
           quality: this.companyqualityValue,
@@ -211,6 +208,7 @@
       },
       searchHandle(){
         getCompanies({
+          ordering: '-yesterday_count',
           name: this.companyname,
           size: this.companysizeValue,
           quality: this.companyqualityValue,

@@ -165,7 +165,7 @@
       }
     },
     created() {
-      this.getJob(this.curPage);
+      this.getYesterdayJob(this.curPage);
     },
     methods:{
       getWorkYearRange(e){
@@ -195,7 +195,7 @@
           max: work_year_max
         }
       },
-      getJob(e) {
+      getYesterdayJob(e) {
         let work_year_range = this.getWorkYearRange(this.workyearValue);
         getJobs({
           name: this.jobname,

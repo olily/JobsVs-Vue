@@ -27,7 +27,7 @@
             昨日新增
           </el-row>
           <el-row class="el-row-h2-data">
-            {{recommendjobs}}个
+            {{yesterdayaddjobscount}}个
           </el-row>
         </div>
       </el-col>
@@ -37,7 +37,7 @@
             企业心选
           </el-row>
           <el-row class="el-row-h2-data">
-            {{recommendjobs}}个
+            {{focuscompanyJobcount}}个
           </el-row>
         </div>
       </el-col>
@@ -54,6 +54,7 @@
   import NoticeCompanyJobs from "@/views/recommend/NoticeCompanyJobs"
   import YesterdayAddJobs from "@/views/recommend/YesterdayAddJobs"
   import HomeComponent from "@/views/HomeComponent"
+  import {getCompanies,getJobs} from '../api/api'
     export default {
       name: "JobsRecommend",
       components:
@@ -68,7 +69,19 @@
         return{
           activeComponent: HomeComponent,
           recommendjobs:'12345',
+          yesterdayaddjobscount: 0,
+          focuscompanyJobcount: 0,
         }
+      },
+      created(){
+        this.getYesterdayJob();
+        this.getFocusCompanyJob();
+      },
+      mounted(){
+        let that = this;
+        this.$bus.on('listenToChildEvent',function (msg){
+          that.activeComponent = CollectForUser;
+        })
       },
       methods: {
         navClickHandler(value) {
@@ -81,7 +94,35 @@
           }else if(value === 'd'){
             this.activeComponent = NoticeCompanyJobs;
           }
-        }
+        },
+        getDateStr(AddDayCount) {
+          let dd = new Date();
+          dd.setDate(dd.getDate() + AddDayCount);   //获取AddDayCount天后的日期
+          let year = dd.getFullYear();
+          let mon = dd.getMonth()+1;                             //获取当前月份的日期
+          let day = dd.getDate();
+          return year + "-" + mon + "-" + day;
+        },
+        getYesterdayJob() {
+          getJobs({
+            put_time: this.yesterday,
+          }).then((response)=> {
+            let data = response.data;
+            this.yesterdayaddjobscount = data.count;
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        getFocusCompanyJob() {
+          getJobs({
+            focuscompany_filter: 1,
+          }).then((response)=> {
+            let data = response.data;
+            this.focuscompanyJobcount = data.count;
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
       }
     }
 </script>

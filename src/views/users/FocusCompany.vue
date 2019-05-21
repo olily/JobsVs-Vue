@@ -106,6 +106,7 @@
       currentChangeHandler(e){
         this.curPage = e;
         getFocusCompanies({
+          company__name: this.companyname,
           page: e,
         }).then((response)=> {
           let data = response.data;
@@ -117,6 +118,7 @@
       },
       searchHandle(){
         getFocusCompanies({
+          company__name: this.companyname,
         }).then((response)=> {
           let data = response.data;
           this.companies = data.results;

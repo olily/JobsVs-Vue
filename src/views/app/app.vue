@@ -108,10 +108,10 @@
                 </el-select>
               </el-col>
             </el-row>
-            <el-row gutter="24">
+            <el-row :gutter="24">
               <el-col :span="8">期望薪资范围:</el-col>
               <el-col :span="7"><el-input v-model="salary_low" placeholder="最低"></el-input></el-col>
-              <el-col :span="2">-</el-col>
+              <el-col :span="2" style="padding-top: 10px">-</el-col>
               <el-col :span="7"><el-input v-model="salary_high" placeholder="最高"></el-input></el-col>
             </el-row>
             <span slot="footer" class="dialog-footer">
@@ -122,7 +122,7 @@
         </div>
       </el-row>
       <div style="height: 100%">
-        <component :is="activeComponent"></component>
+        <component :is="activeComponent" ></component>
       </div>
     </el-col>
   </el-row>
@@ -283,6 +283,16 @@
         UserProfile,
         CompanyVisualization
       },
+    mounted(){
+      if (typeof(this.$store.state.userCollectJobs)=='string'){
+        this.$store.state.userCollectJobs = JSON.parse(this.$store.state.userCollectJobs);
+        this.$store.dispatch('setCollectJobs');
+      }
+      if (typeof(this.$store.state.userFocusCompanies)=='string'){
+        this.$store.state.userFocusCompanies = JSON.parse(this.$store.state.userFocusCompanies);
+        this.$store.dispatch('setFocusCompanies');
+      }
+    },
     created(){
       let userInfo = this.$store.state.userInfo;
       if (userInfo['id'] != null && userInfo['name'] != null && userInfo['token'] != null) {

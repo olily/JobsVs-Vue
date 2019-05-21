@@ -2,24 +2,10 @@
   <el-row :gutter="24">
     <el-col :span="16" class="el-row-content-data-rect">
       <el-row :gutter="24" class="el-card-row">
-        <el-col :span="12"><JobCard></JobCard></el-col>
-        <el-col :span="12"><JobCard></JobCard></el-col>
-      </el-row>
-      <el-row :gutter="24" class="el-card-row">
-        <el-col :span="12"><JobCard></JobCard></el-col>
-        <el-col :span="12"><JobCard></JobCard></el-col>
-      </el-row>
-      <el-row :gutter="24" class="el-card-row">
-        <el-col :span="12"><JobCard></JobCard></el-col>
-        <el-col :span="12"><JobCard></JobCard></el-col>
-      </el-row>
-      <el-row :gutter="24" class="el-card-row">
-        <el-col :span="12"><JobCard></JobCard></el-col>
-        <el-col :span="12"><JobCard></JobCard></el-col>
+        <el-col :span="12"><JobCard v-for="job in jobs" :key="job.id" :job="job"></JobCard></el-col>
       </el-row>
       <el-row>
-        <el-button type="text" style="color: #8693F3;">查看更多</el-button>
-        <!--<el-button type="primary" class="card-more-bt">查看更多</el-button>-->
+        <el-button type="text" style="color: #8693F3;" @click="sendMsgToParent()">查看更多</el-button>
       </el-row>
     </el-col>
     <el-col :span="8" class="el-row-content-data-rect">
@@ -30,20 +16,22 @@
       <el-row :gutter="24">
         <!--<div id="companyRankChart" class="recommed-chart"></div>-->
         <el-table
-          :data="tableData"
+          :data="companies"
           id="companyRankTable"
-          row-style="height:10px"
+          :row-style="{height: '10px'}"
           style="width: 100%">
           <el-table-column
-            prop="rank"
             width="40">
+            <template slot-scope="scope">
+              {{scope.$index+1}}
+            </template>
           </el-table-column>
           <el-table-column
-            prop="companyName"
+            prop="name"
             width="210">
           </el-table-column>
           <el-table-column
-            prop="newJobsNum">
+            prop="yesterday_count">
           </el-table-column>
         </el-table>
       </el-row>
@@ -53,6 +41,7 @@
 
 <script>
     import JobCard from "../components/recommend/JobCard"
+    import {getJobs,getCompanies} from '../api/api'
     export default {
         name: "HomeComponent",
         components:
@@ -60,52 +49,13 @@
             JobCard,
           },
         created(){
-          this.drawNewJobsChart();
-          this.drawComapnyRankChart();
+          this.getYesterdayJob();
+          this.getCompany();
         },
         data(){
           return{
-            tableData: [{
-              rank: '1',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            }, {
-              rank: '2',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            }, {
-              rank: '3',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            }, {
-              rank: '4',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            },{
-              rank: '5',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            },{
-              rank: '6',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            },{
-              rank: '7',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            },{
-              rank: '8',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            },{
-              rank: '9',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            },{
-              rank: '10',
-              companyName: '北明软件有限公司成都分公司',
-              newJobsNum: '10000'
-            }]
+            jobs: [],
+            companies: [],
           }
         },
         mounted(){
@@ -113,6 +63,30 @@
           this.drawComapnyRankChart();
         },
       methods: {
+        sendMsgToParent(){
+          this.$bus.emit('listenToChildEvent',"");
+        },
+        getYesterdayJob() {
+          getJobs({
+            page_size: 8,
+          }).then((response)=> {
+            let data = response.data;
+            this.jobs = data.results;
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        getCompany() {
+          getCompanies({
+            ordering: '-yesterday_count',
+            page_size: 10,
+          }).then((response)=> {
+            let data = response.data;
+            this.companies = data.results;
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
         drawNewJobsChart() {
           // 基于准备好的dom，初始化echarts实例
           let myChart1 = this.$echarts.init(document.getElementById('newJobsChart'));

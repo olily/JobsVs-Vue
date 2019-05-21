@@ -1,9 +1,9 @@
 <template>
   <div id = content>
     <div class="info_div">
-      <el-row gutter="24">
+      <el-row :gutter="24">
         <el-col :span="8" style="margin-top: 10px">
-          <el-row><img src="../../static/images/user/Simona.png"></el-row>
+          <el-row><img :src=imageUrl style="width: 100px;height: 100px"></el-row>
           <el-row><span style="font-size: 16px">重新上传头像</span></el-row>
           <el-row>
             <el-upload
@@ -140,6 +140,7 @@
           let data = response.data;
           if (data.results.length>0){
             let result = data.results[0];
+            this.imageUrl = result['avatar'];
             this.userProfileId = result['id'];
             this.eduValue = result['education'].toString();
             this.school = result['school'];
@@ -165,8 +166,9 @@
         let param = new FormData();
         param.append('avatar',file);
         uploadAvatar(this.userProfileId,param).then((response)=> {
+          console.log(response);
           if(response.status === 200){
-            console.log("修改成功");
+            this.$message.success("修改成功，请刷新查看");
           }else{
             console.log("你没有权限");
           }
@@ -199,21 +201,6 @@
           console.log("error",error);
         });
       },
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
-      },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
-      }
     }
 
   }

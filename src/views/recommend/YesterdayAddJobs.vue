@@ -109,6 +109,7 @@
       return{
         jobname: '',
         search: '',
+        yesterday: '',
         jobs: [],
         curPage: 1,
         pageSize: 10,
@@ -165,9 +166,18 @@
       }
     },
     created() {
-      this.getJob(this.curPage);
+      this.yesterday = this.getDateStr(-1);
+      this.getYesterdayJob(this.curPage);
     },
     methods:{
+      getDateStr(AddDayCount) {
+          let dd = new Date();
+          dd.setDate(dd.getDate() + AddDayCount);   //获取AddDayCount天后的日期
+          let year = dd.getFullYear();
+          let mon = dd.getMonth()+1;                             //获取当前月份的日期
+          let day = dd.getDate();
+          return year + "-" + mon + "-" + day;
+        },
       getWorkYearRange(e){
         let work_year_min = '';
         let work_year_max = '';
@@ -195,9 +205,10 @@
           max: work_year_max
         }
       },
-      getJob(e) {
+      getYesterdayJob(e) {
         let work_year_range = this.getWorkYearRange(this.workyearValue);
         getJobs({
+          put_time: this.yesterday,
           name: this.jobname,
           city: this.cityArray[1],
           education: this.eduValue,
@@ -216,6 +227,7 @@
         let work_year_range = this.getWorkYearRange(this.workyearValue);
         this.curPage = e;
         getJobs({
+          put_time: this.yesterday,
           name: this.jobname,
           city: this.cityArray[1],
           education: this.eduValue,
@@ -233,6 +245,7 @@
       searchHandle(){
         let work_year_range = this.getWorkYearRange(this.workyearValue);
         getJobs({
+          put_time: this.yesterday,
           name: this.jobname,
           city: this.cityArray[1],
           education: this.eduValue,

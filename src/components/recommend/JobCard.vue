@@ -2,18 +2,18 @@
     <div class="jobcard">
       <el-row :gutter="24" style="padding-top: 10px">
         <el-col :span="12">
-          <span class="card-job-name">数据分析师</span>
+          <span class="card-job-name">{{job.name}}</span>
         </el-col>
         <el-col :span="12">
-          <span class="card-salary">20K-30K</span>
+          <span class="card-salary">{{job.salary_low}}-{{job.salary_high}}</span>
         </el-col>
       </el-row>
       <el-row>
         <div class="card-job-edu">
-          <span>经验1-3年 /</span>
-          <span>本科</span>
+          <span>经验{{job.work_year}}年 /</span>
+          <span>{{job.edu_name}}</span>
         </div>
-        <span class="card-put-time">2019-04-28发布</span>
+        <span class="card-put-time">{{job.put_time}}发布</span>
       </el-row>
       <el-row style="color:rgba(153,153,153,0.7);">----------------------------------------------</el-row>
       <el-row :gutter="24" class="card-company">
@@ -24,10 +24,10 @@
         </el-col>
         <el-col :span="20">
           <el-row  >
-            <span class="card-job-name" >杭州肯德基有限公司</span>
+            <span class="card-job-name" >{{job.company_name}}</span>
           </el-row>
           <el-row class="card-job-edu">
-            <span> 互联网、餐饮 / 成都 / 100-500人</span>
+            <span> 互联网、餐饮 / {{job.city_name}} / {{job.companysize_name}}</span>
           </el-row>
         </el-col>
       </el-row>
@@ -36,7 +36,8 @@
 
 <script>
     export default {
-        name: "JobCard"
+        name: "JobCard",
+        props:['job'],
     }
 </script>
 
