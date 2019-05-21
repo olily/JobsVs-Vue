@@ -34,9 +34,8 @@
           label="性质">
         </el-table-column>
         <el-table-column
-          prop="count_jobs"
+          prop="yesterday_count"
           label="新增岗位数">
-          10
         </el-table-column>
         <el-table-column
           label="关注时间">

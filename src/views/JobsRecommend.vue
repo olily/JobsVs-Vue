@@ -74,6 +74,7 @@
         }
       },
       created(){
+        this.yesterday = this.getDateStr(-1);
         this.getYesterdayJob();
         this.getFocusCompanyJob();
       },
