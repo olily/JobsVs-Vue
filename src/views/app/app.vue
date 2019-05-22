@@ -121,8 +121,8 @@
           </el-dialog>
         </div>
       </el-row>
-      <div style="height: 100%">
-        <component :is="activeComponent" ></component>
+      <div>
+        <component :is="activeComponent" v-bind:want_jobfunction="jobfunctionArray[1]"></component>
       </div>
     </el-col>
   </el-row>

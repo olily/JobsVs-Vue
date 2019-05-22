@@ -41,7 +41,7 @@
       <el-table
         class="table_div"
         :data="jobs"
-        style="width: 100%;height: 410px;"
+        style="width: 100%;"
       >
         <el-table-column
           prop="name"

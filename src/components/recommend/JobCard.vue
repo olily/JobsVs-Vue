@@ -1,10 +1,10 @@
 <template>
     <div class="jobcard">
       <el-row :gutter="24" style="padding-top: 10px">
-        <el-col :span="12">
+        <el-col :span="16">
           <span class="card-job-name">{{job.name}}</span>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="8">
           <span class="card-salary">{{job.salary_low}}-{{job.salary_high}}</span>
         </el-col>
       </el-row>

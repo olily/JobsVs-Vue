@@ -1,9 +1,9 @@
 <template>
   <el-row :gutter="24">
     <el-col :span="16" class="el-row-content-data-rect">
-      <el-row :gutter="24" class="el-card-row">
-        <el-col :span="12"><JobCard v-for="job in jobs" :key="job.id" :job="job"></JobCard></el-col>
-      </el-row>
+      <el-col :span="12" v-for="job in jobs" :key="job.id">
+        <JobCard :job="job"></JobCard>
+      </el-col>
       <el-row>
         <el-button type="text" style="color: #8693F3;" @click="sendMsgToParent()">查看更多</el-button>
       </el-row>

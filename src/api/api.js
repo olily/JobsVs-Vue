@@ -34,6 +34,9 @@ export const delFocusCompany = focuscompanyId => {return axios.delete(`${host}/u
   headers:{'X-CSRFToken': cookie.getCookie('csrftoken')}
 })};
 
+//获取JobMap
+export const getJobsMap = params => { return axios.get(`${host}/jobsmap/`,{ params: params  })};
+
 
 //获取提交信息
 export const getSubmissionDetail = submissionId => { return axios.get(`${host}/submissions/${submissionId}`+'/')};
