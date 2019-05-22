@@ -54,7 +54,7 @@
   import NoticeCompanyJobs from "@/views/recommend/NoticeCompanyJobs"
   import YesterdayAddJobs from "@/views/recommend/YesterdayAddJobs"
   import HomeComponent from "@/views/HomeComponent"
-  import {getCompanies,getJobs} from '../api/api'
+  import {getJobs} from '../api/api'
     export default {
       name: "JobsRecommend",
       components:

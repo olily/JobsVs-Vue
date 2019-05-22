@@ -26,11 +26,11 @@
 </template>
 
 <script>
+  require("echarts-wordcloud");
   require('echarts/extension/bmap/bmap');
   export default {
     name: "CompanyVisualization",
     created(){
-      // console.log("2222");
     },
     mounted(){
       this.drawMyMap();
@@ -835,23 +835,56 @@
       },
       drawEducationBar(){
         let myCahrt = this.$echarts.init(document.getElementById("educationBar"));
-        myCahrt.setOption({
-            title:{
-              text: "学历/工作经验-薪资分布"
+        var myOption={
+          series: [{
+            name: '舆情信息',
+            type: 'wordCloud',
+            size: ['90%', '90%'],
+            textRotation : [-90, 90],
+            shape: 'circle',
+            autoSize: {
+              enable: true,
+              minSize: 14
             },
-            xAxis: {
-              type: 'category',
-              data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+            textStyle: {
+              normal: {
+                color: function() {
+                  return 'rgb(' + [
+                    Math.round(Math.random() * 160),
+                    Math.round(Math.random() * 160),
+                    Math.round(Math.random() * 160)
+                  ].join(',') + ')';
+                }
+              },
+              emphasis: {
+                shadowBlur: 10,
+                shadowColor: '#333'
+              }
             },
-            yAxis: {
-              type: 'value'
-            },
-            series: [{
-              data: [120, 200, 150, 80, 70, 110, 130],
-              type: 'bar'
-            }]
-          }
-        )
+            data:[
+              {
+                name: "OFO小黄车",
+                value: 224,
+              },{
+            name: "车锁坏",
+            value: 2142,
+          },{
+          name: "不好骑行",
+          value: 12,
+        },{
+          name: "踏板不灵",
+          value: 99,
+        },{
+            name: "押金不退",
+              value: 20,
+          },{
+            name: "摩拜单车",
+              value: 1230,
+          },
+        ]
+        }]
+        };
+        myCahrt.setOption(myOption);
       }
     }
   }
