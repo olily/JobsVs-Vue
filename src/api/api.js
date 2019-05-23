@@ -37,6 +37,11 @@ export const delFocusCompany = focuscompanyId => {return axios.delete(`${host}/u
 //获取JobMap
 export const getJobsMap = params => { return axios.get(`${host}/jobsmap/`,{ params: params  })};
 
+//获取JobPoint
+export const getJobsPoint = params => { return axios.get(`${host}/jobspoint/`,{ params: params  })};
+
+//获取FareCloud
+export const getFaresCloud = params => { return axios.get(`${host}/farecloud/`,{ params: params  })};
 
 //获取提交信息
 export const getSubmissionDetail = submissionId => { return axios.get(`${host}/submissions/${submissionId}`+'/')};

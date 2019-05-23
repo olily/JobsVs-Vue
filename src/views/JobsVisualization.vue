@@ -56,7 +56,8 @@
         getJobMap(){
           getJobsMap({
             ordering: '-job_count',
-            jobfunction: this.want_jobfunction_id
+            jobfunction: this.want_jobfunction_id,
+            page_size: 250
           }).then((response)=> {
             this.cities = response.data.results;
             this.drawMyMap();
@@ -574,7 +575,7 @@
             },
             yAxis: {
               type: 'category',
-              name: 'TOP 13',
+              name: 'TOP 5',
               nameGap: 13,
               axisLine: {show: false, lineStyle: {color: '#ddd'}},
               axisTick: {show: false, lineStyle: {color: '#ddd'}},
@@ -588,7 +589,11 @@
                 coordinateSystem: 'geo',
                 data: results,
                 symbolSize: function (val) {
-                  return Math.max(val[2] / 10, 8);
+                  return Math.log2(val[2]);
+                },
+                color: function(val) {
+                  return 'rgba(244,233,37,'+
+                    Math.min(10000,val.data['value'][3])/10000 + ')';
                 },
                 label: {
                   normal: {
@@ -612,7 +617,7 @@
                 coordinateSystem: 'geo',
                 data: results.slice(0,6),
                 symbolSize: function (val) {
-                  return Math.max(val[2] / 10, 8);
+                  return Math.log2(val[2]);
                 },
                 showEffectOn: 'emphasis',
                 rippleEffect: {
@@ -628,7 +633,10 @@
                 },
                 itemStyle: {
                   normal: {
-                    color: '#f4e925',
+                    color: function(val) {
+                      return 'rgba(244,233,37,'+
+                        Math.min(10000,val.data['value'][3])/10000 + ')';
+                    },
                     shadowBlur: 10,
                     shadowColor: '#333'
                   }
