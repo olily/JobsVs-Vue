@@ -43,6 +43,12 @@ export const getJobsPoint = params => { return axios.get(`${host}/jobspoint/`,{ 
 //获取FareCloud
 export const getFaresCloud = params => { return axios.get(`${host}/farecloud/`,{ params: params  })};
 
+//获取CompaniesHot
+export const getCompaniesHot = params => { return axios.get(`${host}/companyhot/`,{ params: params  })};
+
+//获取CompaniesMap
+export const getCompaniesMap = params => { return axios.get(`${host}/companymap/`,{ params: params  })};
+
 //获取提交信息
 export const getSubmissionDetail = submissionId => { return axios.get(`${host}/submissions/${submissionId}`+'/')};
 
