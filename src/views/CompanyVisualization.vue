@@ -4,18 +4,18 @@
       <div id="myMap" class="JobsVisualizationMap"></div>
     </el-row>
     <el-row :gutter="24">
-      <el-col :span="16">
+      <el-col :span="12">
         <div id="hotChart" class="hotChart"></div>
       </el-col>
-      <el-col :span="8">
-        <div id="roseChart" class="roseChart"></div>
+      <el-col :span="12">
+        <div id="paralleChart" class="paralleChart"></div>
       </el-col>
     </el-row>
   </div>
 </template>
 
 <script>
-  import {getCompaniesMap,getCompaniesHot} from "../api/api";
+  import {getCompaniesMap,getCompaniesHot,getCompaniesParalle} from "../api/api";
   require("echarts-wordcloud");
   require('echarts/extension/bmap/bmap');
   export default {
@@ -26,6 +26,7 @@
         want_jobfunction_id: '',
         hotData: [],
         cities: [],
+        paralleData: [],
       }
     },
     created(){
@@ -37,6 +38,7 @@
       }
       this.getCompanyMap();
       this.getCompanyHot();
+      this.getCompanyParalle();
     },
     methods:{
       getCompanyMap(){
@@ -55,6 +57,16 @@
         }).then((response)=> {
           this.hotData = response.data.results;
           this.drawHotChart();
+        }).catch(function (error) {
+          console.log(error);
+        });
+      },
+      getCompanyParalle(){
+        getCompaniesParalle({
+          page_size: 100
+        }).then((response)=> {
+          this.paralleData = response.data.results;
+          // this.drawParalleChart();
         }).catch(function (error) {
           console.log(error);
         });
@@ -780,6 +792,290 @@
         };
         myChart.setOption(option);
       },
+      drawParalleChart(){
+        let myChart = this.$echarts.init(document.getElementById("paralleChart"));
+        var data = [
+          [], [], [], [], [],[], [], [], [], [],
+          [], [], [], [], [],[], [], [], [], [],
+          [], [], [], [], [],[], [], [], [], [],
+          [], [], [], [], [],
+        ];
+        for( let paralle of this.paralleData){
+          data[paralle['p']].push([paralle['c'],paralle['s'],paralle['q'],paralle['i']]);
+        }
+
+        var schema = [
+          {name: 'date', index: 0, text: '城市'},
+          {name: 'AQIindex', index: 1, text: '规模'},
+          {name: 'PM25', index: 2, text: '性质'},
+          {name: 'PM10', index: 3, text: '行业'},
+        ];
+
+        var lineStyle = {
+          normal: {
+            width: 1,
+            opacity: 0.5
+          }
+        };
+
+        var option = {
+          backgroundColor: '#333',
+          parallelAxis: [
+            {dim: 0, name: schema[0].text, inverse: true, nameLocation: 'start'},
+            {dim: 1, name: schema[1].text},
+            {dim: 2, name: schema[2].text},
+            {dim: 3, name: schema[3].text},
+          ],
+          visualMap: {
+            show: true,
+            min: 0,
+            max: 1000,
+            dimension: 2,
+            inRange: {
+              color: ['#d94e5d','#eac736','#50a3ba'].reverse(),
+              // colorAlpha: [0, 1]
+            }
+          },
+          parallel: {
+            left: '5%',
+            right: '18%',
+            bottom: 100,
+            parallelAxisDefault: {
+              type: 'value',
+              name: 'AQI指数',
+              nameLocation: 'end',
+              nameGap: 20,
+              nameTextStyle: {
+                color: '#fff',
+                fontSize: 12
+              },
+              axisLine: {
+                lineStyle: {
+                  color: '#aaa'
+                }
+              },
+              axisTick: {
+                lineStyle: {
+                  color: '#777'
+                }
+              },
+              splitLine: {
+                show: false
+              },
+              axisLabel: {
+                textStyle: {
+                  color: '#fff'
+                }
+              }
+            }
+          },
+          series: [
+            {
+              name: '北京',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[0]
+            },
+            {
+              name: '上海',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[1]
+            },{
+              name: '广东省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[2]
+            },{
+              name: '深圳',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[3]
+            },
+            {
+              name: '天津',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[4]
+            },
+            {
+              name: '重庆',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[5]
+            },
+            {
+              name: '江苏省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[6]
+            },
+            {
+              name: '浙江省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[7]
+            },{
+              name: '四川省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[8]
+            },
+            {
+              name: '海南省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[9]
+            },
+            {
+              name: '福建省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[10]
+            },
+            {
+              name: '山东省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[11]
+            },
+            {
+              name: '江西省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[12]
+            },
+            {
+              name: '广西',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[13]
+            },
+            {
+              name: '安徽省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[14]
+            },
+            {
+              name: '河北省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[15]
+            },
+            {
+              name: '河南省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[16]
+            },
+            {
+              name: '湖北省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[17]
+            },
+            {
+              name: '湖南省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[18]
+            },
+            {
+              name: '陕西省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[19]
+            },
+            {
+              name: '山西省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[20]
+            },
+            {
+              name: '黑龙江省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[21]
+            },
+            {
+              name: '辽宁',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[22]
+            },
+            {
+              name: '吉林省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[23]
+            }, {
+              name: '云南省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[24]
+            },
+            {
+              name: '贵州省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[25]
+            }, {
+              name: '甘肃省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[26]
+            },
+            {
+              name: '内蒙古',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[27]
+            }, {
+              name: '宁夏',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[28]
+            },
+            {
+              name: '西藏',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[29]
+            },
+            {
+              name: '新疆',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[30]
+            }, {
+              name: '青海省',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[31]
+            },
+            {
+              name: '香港',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[32]
+            }, {
+              name: '澳门',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[33]
+            },
+            {
+              name: '台湾',
+              type: 'parallel',
+              lineStyle: lineStyle,
+              data: data[34]
+            }
+          ]
+        };
+        myChart.setOption(option);
+      },
       drawPointChart(){
         let myChart = this.$echarts.init(document.getElementById("cityChart"));
         myChart.setOption({
@@ -988,8 +1284,8 @@
     height: 500px;
     /*background: oldlace;*/
   }
-  .roseChart{
-    height: 250px;
+  .paralleChart{
+    height: 450px;
   }
   .educationBar{
     height: 250px;

@@ -46,6 +46,9 @@ export const getFaresCloud = params => { return axios.get(`${host}/farecloud/`,{
 //获取CompaniesHot
 export const getCompaniesHot = params => { return axios.get(`${host}/companyhot/`,{ params: params  })};
 
+//获取CompaniesHot
+export const getCompaniesParalle = params => { return axios.get(`${host}/companyparalle/`,{ params: params  })};
+
 //获取CompaniesMap
 export const getCompaniesMap = params => { return axios.get(`${host}/companymap/`,{ params: params  })};
 
