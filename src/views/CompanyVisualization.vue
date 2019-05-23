@@ -34,7 +34,7 @@
     },
     mounted(){
       this.drawMyMap();
-      this.drawCityChart();
+      this.drawPointChart();
       this.drawRoseChart();
       this.drawEducationBar();
     },
@@ -697,7 +697,7 @@
           });
         }
       },
-      drawCityChart(){
+      drawPointChart(){
         let myChart = this.$echarts.init(document.getElementById("cityChart"));
         myChart.setOption({
           title:{

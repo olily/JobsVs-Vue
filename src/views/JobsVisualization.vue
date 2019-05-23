@@ -1,34 +1,34 @@
 <template>
     <div id="JobsVisualizationContent">
       <el-row :gutter="24">
-        <!--<el-col :span="6">-->
-          <!--<div id="cityChart" class="cityChart"></div>-->
-        <!--</el-col>-->
-        <!--<el-col :span="24">-->
         <div id="myMap" class="JobsVisualizationMap">
         </div>
-        <!--</el-col>-->
-        <!--<el-col :span="6">-->
-          <!--rank-->
-        <!--</el-col>-->
       </el-row>
       <el-row :gutter="24">
-        <el-col :span="8">
-          <div id="cityChart" class="cityChart"></div>
+        <el-col :span="16">
+          <div id="pointChart" class="pointChart"></div>
         </el-col>
         <el-col :span="8">
           <div id="roseChart" class="roseChart"></div>
         </el-col>
+      </el-row>
+      <el-row :gutter="24">
         <el-col :span="8">
-          <div id="educationBar" class="educationBar"></div>
+          <div id="cloud1Chart" class="pointChart"></div>
+        </el-col>
+        <el-col :span="8">
+          <div id="cloud2Chart" class="roseChart"></div>
+        </el-col>
+        <el-col :span="8">
+          <div id="cloud3Chart" class="roseChart"></div>
         </el-col>
       </el-row>
     </div>
 </template>
 
 <script>
-  import {getJobsMap} from "../api/api";
-
+  import {getJobsMap,getJobsPoint,getFaresCloud} from "../api/api";
+  require("echarts-wordcloud");
   require('echarts/extension/bmap/bmap');
     export default {
       name: "JobsVisualization",
@@ -37,6 +37,8 @@
         return{
           want_jobfunction_id: '',
           cities: [],
+          educations: [],
+          fares: [],
         }
       },
       created(){
@@ -47,6 +49,8 @@
           this.want_jobfunction_id = '';
         }
         this.getJobMap();
+        this.getJobPoint();
+        this.getFareCloud();
       },
       methods:{
         getJobMap(){
@@ -54,12 +58,31 @@
             ordering: '-job_count',
             jobfunction: this.want_jobfunction_id
           }).then((response)=> {
-            this.cities = response.data;
-            console.log("cities",this.cities);
+            this.cities = response.data.results;
             this.drawMyMap();
-            this.drawCityChart();
-            this.drawRoseChart();
-            this.drawEducationBar();
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        getJobPoint(){
+          getJobsPoint({
+            page_size: 10000,
+            jobfunction: this.want_jobfunction_id
+          }).then((response)=> {
+            this.educations = response.data.results;
+            this.drawPointChart();
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        getFareCloud(){
+          getFaresCloud({
+            ordering: '-count',
+            jobfunction: this.want_jobfunction_id,
+            page_size: 10000,
+          }).then((response)=> {
+            this.fares = response.data.results;
+            this.drawCloud1Chart();
           }).catch(function (error) {
             console.log(error);
           });
@@ -688,66 +711,182 @@
             });
           }
         },
-        drawCityChart(){
-          let myChart = this.$echarts.init(document.getElementById("cityChart"));
-          myChart.setOption({
-            title:{
-              text: "行业-岗位/薪资"
+        drawPointChart(){
+          let myChart = this.$echarts.init(document.getElementById("pointChart"));
+          let educationArr = [
+            [],
+            [],
+            [],
+            [],
+            [],
+            [],
+            []
+          ];
+          for (let edu in this.educations){
+            educationArr[this.educations[edu]['education']-1].push([this.educations[edu]['work_year'],this.educations[edu]['salary_avg']]);
+          }
+          var itemStyle = {
+            normal: {
+              opacity: 0.8,
+              shadowBlur: 10,
+              shadowOffsetX: 0,
+              shadowOffsetY: 0,
+              shadowColor: 'rgba(0, 0, 0, 0.5)'
+            }
+          };
+
+          let option = {
+            backgroundColor: '#404a59',
+            color: [
+              '#EAC322','#D4C139','#B7C058','#8EBD83','#66BBAE','#4AB9CB','#27B7EF'
+            ],
+            legend: {
+              y: 'top',
+              data: ['无', '初中及以下', '高中/中技/中专','大专','本科','硕士','博士'],
+              textStyle: {
+                color: '#fff',
+                fontSize: 16
+              }
             },
-            // backgroundColor: '#404a59',
-            animation: true,
-            animationDuration: 1000,
-            animationEasing: 'cubicInOut',
-            animationDurationUpdate: 1000,
-            animationEasingUpdate: 'cubicInOut',
-            dataset: {
-              source: [
-                ['score', 'amount', 'product'],
-                [89.3, 58212, '会计/金融/银行/保险'],
-                [57.1, 78254, '贸易/消费/制造/营运'],
-                [74.4, 41032, '制药/医疗'],
-                [50.1, 12755, '广告/媒体'],
-                [89.7, 20145, '房地产/建筑'],
-                [68.1, 79146, '专业服务/教育/培训'],
-                [19.6, 91852, '服务业'],
-                [10.6, 101852, '青计算机/互联网/通信/电子'],
-                [32.7, 20112, '能源/原材料'],
-                [32.7, 20112, '政府/非营利组织/其他']
-              ]
+            grid: {
+              x: '10%',
+              x2: 150,
+              y: '18%',
+              y2: '10%'
             },
-            grid: {containLabel: true},
-            xAxis: {name: 'amount',show: false},
+            xAxis: {
+              type: 'value',
+              name: '工作经验',
+              nameGap: 16,
+              nameTextStyle: {
+                color: '#fff',
+                fontSize: 14
+              },
+              max: 12,
+              splitLine: {
+                show: false
+              },
+              axisLine: {
+                lineStyle: {
+                  color: '#eee'
+                }
+              }
+            },
             yAxis: {
-              type: 'category',
-              axisLabel:{
-                // rotate:1,
-                interval:0
+              type: 'value',
+              name: '平均薪资',
+              nameLocation: 'end',
+              nameGap: 20,
+              max: 40000,
+              nameTextStyle: {
+                color: '#fff',
+                fontSize: 16
               },
-            },
-            visualMap: {
-              orient: 'horizontal',
-              left: 'center',
-              min: 10,
-              max: 100,
-              text: ['High salary', 'Low salary'],
-              // Map the score column to color
-              dimension: 0,
-              inRange: {
-                color: ['#D7DA8B', '#E15457']
+              axisLine: {
+                lineStyle: {
+                  color: '#eee'
+                }
               },
+              splitLine: {
+                show: false
+              }
             },
             series: [
               {
-                type: 'bar',
-                encode: {
-                  // Map the "amount" column to X axis.
-                  x: 'amount',
-                  // Map the "product" column to Y axis
-                  y: 'product'
-                }
+                name: '无',
+                type: 'scatter',
+                itemStyle: itemStyle,
+                data: educationArr[0]
+              },
+              {
+                name: '初中及以下',
+                type: 'scatter',
+                itemStyle: itemStyle,
+                data: educationArr[1]
+              },
+              {
+                name: '高中/中技/中专',
+                type: 'scatter',
+                itemStyle: itemStyle,
+                data: educationArr[2]
+              },
+              {
+                name: '大专',
+                type: 'scatter',
+                itemStyle: itemStyle,
+                data: educationArr[3]
+              },
+              {
+                name: '本科',
+                type: 'scatter',
+                itemStyle: itemStyle,
+                data: educationArr[4]
+              },
+              {
+                name: '硕士',
+                type: 'scatter',
+                itemStyle: itemStyle,
+                data: educationArr[5]
+              },
+              {
+                name: '博士',
+                type: 'scatter',
+                itemStyle: itemStyle,
+                data: educationArr[6]
               }
             ]
-          })
+          };
+          myChart.setOption(option);
+        },
+        drawCloud1Chart(){
+          let myChart = this.$echarts.init(document.getElementById("cloud1Chart"));
+          let data = [];
+          let fareDict = {};
+          for (let fare in this.fares){
+            if (fareDict.hasOwnProperty(this.fares[fare]['jobfare'])){
+              data[fareDict[this.fares[fare]['jobfare']]]['value'] += this.fares[fare]['count'];
+            }else{
+              fareDict[this.fares[fare]['jobfare']] = data.length;
+              data.push({
+                name: this.fares[fare]['jobfare'],
+                value: this.fares[fare]['count'],
+              });
+            }
+          }
+          // 排序没有必要性
+          data.sort(function (a,b) {
+            return b['value']-a['value'];
+          });
+          var myOption={
+            series: [{
+              name: '舆情信息',
+              type: 'wordCloud',
+              size: ['90%', '90%'],
+              textRotation : [-90, 90],
+              shape: 'circle',
+              autoSize: {
+                enable: true,
+                minSize: 14
+              },
+              textStyle: {
+                normal: {
+                  color: function() {
+                    return 'rgb(' + [
+                      Math.round(Math.random() * 160),
+                      Math.round(Math.random() * 160),
+                      Math.round(Math.random() * 160)
+                    ].join(',') + ')';
+                  }
+                },
+                emphasis: {
+                  shadowBlur: 10,
+                  shadowColor: '#333'
+                }
+              },
+              data:data
+            }]
+          };
+          myChart.setOption(myOption);
         },
         drawRoseChart(){
           let myChart = this.$echarts.init(document.getElementById("roseChart"));
@@ -873,9 +1012,8 @@
     height: 300px;
     background: oldlace;
   }
-  .cityChart{
-    height: 250px;
-    /*background: oldlace;*/
+  .pointChart{
+    height: 400px;
   }
   .roseChart{
     height: 250px;

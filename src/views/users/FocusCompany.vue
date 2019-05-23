@@ -2,7 +2,7 @@
   <div id="content">
     <div>
       <el-row :gutter="24">
-        <el-col :span="4"><div>
+        <el-col :span="4" :offset="15"><div>
           <el-input v-model="companyname" placeholder="公司名"></el-input>
         </div></el-col>
         <el-col :span="4"><div>
