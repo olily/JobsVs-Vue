@@ -6,9 +6,6 @@ let host = '/api';
 //获取工作
 export const getJobs = params => { return axios.get(`${host}/jobs/`,{ params: params  })};
 
-//获取题目信息
-export const getProblemDetail = problemId => { return axios.get(`${host}/problems/${problemId}`+'/')};
-
 //获取公司
 export const getCompanies = params => { return axios.get(`${host}/company/`,{ params: params  })};
 
@@ -43,6 +40,12 @@ export const getJobsPoint = params => { return axios.get(`${host}/jobspoint/`,{ 
 //获取FareCloud
 export const getFaresCloud = params => { return axios.get(`${host}/farecloud/`,{ params: params  })};
 
+//获取FareCloud
+export const getRessCloud = params => { return axios.get(`${host}/responsecloud/`,{ params: params  })};
+
+//获取FareCloud
+export const getReqsCloud = params => { return axios.get(`${host}/requestcloud/`,{ params: params  })};
+
 //获取CompaniesHot
 export const getCompaniesHot = params => { return axios.get(`${host}/companyhot/`,{ params: params  })};
 
@@ -52,38 +55,17 @@ export const getCompaniesParalle = params => { return axios.get(`${host}/company
 //获取CompaniesMap
 export const getCompaniesMap = params => { return axios.get(`${host}/companymap/`,{ params: params  })};
 
-//获取JobBar
+//获取JobsBar
 export const getJobsBar = params => { return axios.get(`${host}/jobbar/`,{ params: params  })};
 
-//获取提交信息
-export const getSubmissionDetail = submissionId => { return axios.get(`${host}/submissions/${submissionId}`+'/')};
+//获取Industriesburst
+export const getIndustriesburst = params => { return axios.get(`${host}/industrysun/`,{ params: params  })};
 
-// 添加提交记录
-export const addSubmission = params => { return axios.post(`${host}/submissions/`,params)};
+//获取Jobfunctionsburst
+export const getJobfunctionsburst = params => { return axios.get(`${host}/functionsun/`,{ params: params  })};
 
-//获取Accept列表
-export const getAcceptedProblems = params => { return axios.get(`${host}/useracceptedproblems/`,{ params: params  })};
-
-//获取Challenge列表
-export const getChallengingProblems = params => { return axios.get(`${host}/userchallengingproblems/`,{ params: params  })};
-
-//获取收藏列表
-export const getCollections = params => { return axios.get(`${host}/usercollect/`,{ params: params  })};
-
-// 添加收藏
-export const addCollection = params => { return axios.post(`${host}/usercollect/`,params)};
-
-//取消收藏
-export const delCollection = collectionId => {return axios.delete(`${host}/usercollect/`+collectionId+'/')};
-
-//获取比赛列表
-export const getContests = params => { return axios.get(`${host}/contests/`,{ params: params  })};
-
-//获取比赛排名列表
-export const getContestRankList = params => { return axios.get(`${host}/contestrank/`,{ params: params  })};
-
-//获取比赛信息
-export const getContestDetail = contestId => { return axios.get(`${host}/contests/${contestId}`+'/')};
+//获取Citiesburst
+export const getCitiesburst = params => { return axios.get(`${host}/citysun/`,{ params: params  })};
 
 //获取个人信息
 export const getUserProfile = params => { return axios.get(`${host}/userprofile/`,{ params: params  })};

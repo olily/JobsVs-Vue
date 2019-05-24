@@ -7,7 +7,7 @@
       <el-col :span="12">
         <div id="hotChart" class="hotChart"></div>
       </el-col>
-      <el-col :span="12" style="margin-top: 10px">
+      <el-col :span="12" >
         <div id="paralleChart" class="paralleChart"></div>
       </el-col>
     </el-row>
@@ -474,7 +474,7 @@
           animationEasingUpdate: 'cubicInOut',
           title: [
             {
-              text: '全国公司分布',
+              text: '全国企业分布',
               left: 'center',
               textStyle: {
                 color: '#fff'
@@ -733,6 +733,9 @@
           return [item[1],item[0],item[2] || '-'];
         });
         var option = {
+          title:{
+            text:'行业与性质与企业的关系'
+          },
           tooltip: {
             position: 'top'
           },
@@ -820,6 +823,9 @@
         };
 
         var option = {
+          title:{
+            text:'多因素与企业的关系'
+          },
           // backgroundColor: '#333',
           parallelAxis: [
             {dim: 0, name: schema[0].text, inverse: true, nameLocation: 'start'},
@@ -831,7 +837,7 @@
             // show: true,
             min: 0,
             max: 10,
-            dimension: 1,
+            dimension: 3,
             inRange: {
               color: ['#F5ECA4','#C0454D'],
               // colorAlpha: [0, 1]

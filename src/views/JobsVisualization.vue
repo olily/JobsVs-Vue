@@ -27,7 +27,7 @@
 </template>
 
 <script>
-  import {getJobsMap,getJobsPoint,getFaresCloud,getJobsBar} from "../api/api";
+  import {getJobsMap,getJobsPoint,getFaresCloud,getJobsBar,getReqsCloud,getRessCloud} from "../api/api";
   require("echarts-wordcloud");
   require('echarts/extension/bmap/bmap');
     export default {
@@ -53,13 +53,15 @@
         this.getJobPoint();
         this.getFareCloud();
         this.getJobBar();
+        this.getReqCloud();
+        this.getResCloud();
       },
       methods:{
         getJobMap(){
           getJobsMap({
             ordering: '-job_count',
             jobfunction: this.want_jobfunction_id,
-            page_size: 250
+            page_size: 10000
           }).then((response)=> {
             this.cities = response.data.results;
             // console.log(response);
@@ -87,7 +89,29 @@
           }).then((response)=> {
             this.fares = response.data.results;
             this.drawCloud1Chart();
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        getReqCloud(){
+          getReqsCloud({
+            ordering: '-count',
+            jobfunction: this.want_jobfunction_id,
+            page_size: 5000,
+          }).then((response)=> {
+            this.reqs = response.data.results;
             this.drawCloud2Chart();
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        getResCloud(){
+          getRessCloud({
+            ordering: '-count',
+            jobfunction: this.want_jobfunction_id,
+            page_size: 5000,
+          }).then((response)=> {
+            this.ress = response.data.results;
             this.drawCloud3Chart();
           }).catch(function (error) {
             console.log(error);
@@ -509,7 +533,7 @@
             animationEasingUpdate: 'cubicInOut',
             title: [
               {
-                text: '全国薪资分布',
+                text: '全国岗位/薪资分布',
                 left: 'center',
                 textStyle: {
                   color: '#fff'
@@ -762,6 +786,9 @@
           };
 
           let option = {
+            title:{
+              text:'学历与经验与岗位薪资/数量的关系'
+            },
             // backgroundColor: '#404a59',
             color: [
               '#EAC322','#D4C139','#B7C058','#8EBD83','#66BBAE','#4AB9CB','#27B7EF'
@@ -925,15 +952,15 @@
         drawCloud2Chart(){
           let myChart = this.$echarts.init(document.getElementById("cloud2Chart"));
           let data = [];
-          let fareDict = {};
-          for (let fare in this.fares){
-            if (fareDict.hasOwnProperty(this.fares[fare]['jobfare'])){
-              data[fareDict[this.fares[fare]['jobfare']]]['value'] += this.fares[fare]['count'];
+          let reqDict = {};
+          for (let req in this.reqs){
+            if (reqDict.hasOwnProperty(this.reqs[req]['request'])){
+              data[reqDict[this.reqs[req]['request']]]['value'] += this.reqs[req]['count'];
             }else{
-              fareDict[this.fares[fare]['jobfare']] = data.length;
+              reqDict[this.reqs[req]['request']] = data.length;
               data.push({
-                name: this.fares[fare]['jobfare'],
-                value: this.fares[fare]['count'],
+                name: this.reqs[req]['request'],
+                value: this.reqs[req]['count'],
               });
             }
           }
@@ -943,10 +970,10 @@
           });
           var myOption={
             title:{
-              text:'岗位职责'
+              text:'岗位要求'
             },
             series: [{
-              name: '岗位福利',
+              name: '岗位要求',
               type: 'wordCloud',
               size: ['90%', '90%'],
               textRotation : [-90, 90],
@@ -978,15 +1005,15 @@
         drawCloud3Chart(){
           let myChart = this.$echarts.init(document.getElementById("cloud3Chart"));
           let data = [];
-          let fareDict = {};
-          for (let fare in this.fares){
-            if (fareDict.hasOwnProperty(this.fares[fare]['jobfare'])){
-              data[fareDict[this.fares[fare]['jobfare']]]['value'] += this.fares[fare]['count'];
+          let resDict = {};
+          for (let res in this.ress){
+            if (resDict.hasOwnProperty(this.ress[res]['jobres'])){
+              data[resDict[this.ress[res]['response']]]['value'] += this.ress[res]['count'];
             }else{
-              fareDict[this.fares[fare]['jobfare']] = data.length;
+              resDict[this.ress[res]['response']] = data.length;
               data.push({
-                name: this.fares[fare]['jobfare'],
-                value: this.fares[fare]['count'],
+                name: this.ress[res]['response'],
+                value: this.ress[res]['count'],
               });
             }
           }
@@ -996,10 +1023,10 @@
           });
           var myOption={
             title:{
-              text:'岗位要求'
+              text:'岗位职责'
             },
             series: [{
-              name: '岗位福利',
+              name: '岗位职责',
               type: 'wordCloud',
               size: ['90%', '90%'],
               textRotation : [-90, 90],
