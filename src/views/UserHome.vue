@@ -1,12 +1,12 @@
 <template>
     <div>
       <el-row :gutter="24">
-        <el-col :span="8">
-        </el-col>
-        <el-col :span="16">
-          <div style="height: 400px" id="burstChart1"></div>
-          <div style="height: 400px" id="burstChart2"></div>
-          <div style="height: 400px" id="burstChart3"></div>
+        <!--<el-col :span="8">-->
+        <!--</el-col>-->
+        <el-col :span="24">
+          <div style="height: 600px" id="burstChart1"></div>
+          <div style="height: 700px" id="burstChart3"></div>
+          <div style="height: 1000px" id="burstChart2"></div>
         </el-col>
       </el-row>
     </div>
