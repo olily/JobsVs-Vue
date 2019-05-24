@@ -282,7 +282,7 @@
     }
 </script>
 
-<style>
+<style scoped>
   #content{
     height: 100%;
     width: 100%;

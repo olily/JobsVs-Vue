@@ -52,6 +52,9 @@ export const getCompaniesParalle = params => { return axios.get(`${host}/company
 //获取CompaniesMap
 export const getCompaniesMap = params => { return axios.get(`${host}/companymap/`,{ params: params  })};
 
+//获取JobBar
+export const getJobsBar = params => { return axios.get(`${host}/jobbar/`,{ params: params  })};
+
 //获取提交信息
 export const getSubmissionDetail = submissionId => { return axios.get(`${host}/submissions/${submissionId}`+'/')};
 

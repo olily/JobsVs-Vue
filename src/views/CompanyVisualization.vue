@@ -3,11 +3,11 @@
     <el-row :gutter="24">
       <div id="myMap" class="JobsVisualizationMap"></div>
     </el-row>
-    <el-row :gutter="24">
+    <el-row :gutter="24" style="margin-top: 10px">
       <el-col :span="12">
         <div id="hotChart" class="hotChart"></div>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="12" style="margin-top: 10px">
         <div id="paralleChart" class="paralleChart"></div>
       </el-col>
     </el-row>
@@ -63,10 +63,10 @@
       },
       getCompanyParalle(){
         getCompaniesParalle({
-          page_size: 100
+          page_size: 10000
         }).then((response)=> {
           this.paralleData = response.data.results;
-          // this.drawParalleChart();
+          this.drawParalleChart();
         }).catch(function (error) {
           console.log(error);
         });
@@ -750,8 +750,8 @@
               rotate:45,
               margin:2,
               textStyle:{
-                fontWeight:"bolder",
-                color:"#000000"
+                // fontWeight:"bolder",
+                // color:"#000000"
               }
             },
             splitArea: {
@@ -803,6 +803,7 @@
         for( let paralle of this.paralleData){
           data[paralle['p']].push([paralle['c'],paralle['s'],paralle['q'],paralle['i']]);
         }
+        console.log(data)
 
         var schema = [
           {name: 'date', index: 0, text: '城市'},
@@ -819,7 +820,7 @@
         };
 
         var option = {
-          backgroundColor: '#333',
+          // backgroundColor: '#333',
           parallelAxis: [
             {dim: 0, name: schema[0].text, inverse: true, nameLocation: 'start'},
             {dim: 1, name: schema[1].text},
@@ -827,15 +828,20 @@
             {dim: 3, name: schema[3].text},
           ],
           visualMap: {
-            show: true,
+            // show: true,
             min: 0,
-            max: 1000,
-            dimension: 2,
+            max: 10,
+            dimension: 1,
             inRange: {
-              color: ['#d94e5d','#eac736','#50a3ba'].reverse(),
+              color: ['#F5ECA4','#C0454D'],
               // colorAlpha: [0, 1]
-            }
+            },
+            calculable: true,
+            orient: 'horizontal',
+            left: 'center',
+            bottom: '15%'
           },
+
           parallel: {
             left: '5%',
             right: '18%',
@@ -846,17 +852,17 @@
               nameLocation: 'end',
               nameGap: 20,
               nameTextStyle: {
-                color: '#fff',
+                color: '#515151',
                 fontSize: 12
               },
               axisLine: {
                 lineStyle: {
-                  color: '#aaa'
+                  color: '#515151'
                 }
               },
               axisTick: {
                 lineStyle: {
-                  color: '#777'
+                  color: '#515151'
                 }
               },
               splitLine: {
@@ -864,7 +870,7 @@
               },
               axisLabel: {
                 textStyle: {
-                  color: '#fff'
+                  color: '#515151'
                 }
               }
             }
@@ -886,7 +892,8 @@
               type: 'parallel',
               lineStyle: lineStyle,
               data: data[2]
-            },{
+            },
+            {
               name: '深圳',
               type: 'parallel',
               lineStyle: lineStyle,
@@ -915,7 +922,8 @@
               type: 'parallel',
               lineStyle: lineStyle,
               data: data[7]
-            },{
+            },
+            {
               name: '四川省',
               type: 'parallel',
               lineStyle: lineStyle,
@@ -1010,7 +1018,8 @@
               type: 'parallel',
               lineStyle: lineStyle,
               data: data[23]
-            }, {
+            },
+            {
               name: '云南省',
               type: 'parallel',
               lineStyle: lineStyle,
@@ -1021,7 +1030,8 @@
               type: 'parallel',
               lineStyle: lineStyle,
               data: data[25]
-            }, {
+            },
+            {
               name: '甘肃省',
               type: 'parallel',
               lineStyle: lineStyle,
@@ -1032,7 +1042,8 @@
               type: 'parallel',
               lineStyle: lineStyle,
               data: data[27]
-            }, {
+            },
+            {
               name: '宁夏',
               type: 'parallel',
               lineStyle: lineStyle,
@@ -1049,7 +1060,8 @@
               type: 'parallel',
               lineStyle: lineStyle,
               data: data[30]
-            }, {
+            },
+            {
               name: '青海省',
               type: 'parallel',
               lineStyle: lineStyle,
@@ -1060,7 +1072,8 @@
               type: 'parallel',
               lineStyle: lineStyle,
               data: data[32]
-            }, {
+            },
+            {
               name: '澳门',
               type: 'parallel',
               lineStyle: lineStyle,
@@ -1271,7 +1284,7 @@
 
 <style scoped>
   #JobsVisualizationContent{
-    width: 97%;
+    width: 100%;
     height: 100%;
     /*background: oldlace;*/
     margin-top:10px;
@@ -1285,7 +1298,7 @@
     /*background: oldlace;*/
   }
   .paralleChart{
-    height: 450px;
+    height: 500px;
   }
   .educationBar{
     height: 250px;

@@ -22,23 +22,18 @@
             <el-button style="margin-left: 10px;" size="small" type="success" @click="avatarUpdate">upload avatar</el-button>
           </el-row>
         </el-col>
-        <el-col :span="16">
-          <el-row style="margin-top: 10px;">
-            <el-col :span="4">毕业院校:</el-col>
-            <el-col :span="10"><el-input v-model="school" placeholder="学校" size="2"></el-input></el-col>
-          </el-row>
-          <el-row style="margin-top: 10px;">
-            <el-col :span="4">性别:</el-col>
-            <el-col :span="10">
+        <el-col :span="10" style="margin-top: 10px" :offset="2">
+          <el-form  label-width="80px" label="right">
+            <el-form-item label="性别">
               <el-radio v-model="sex" label="0">保密</el-radio>
               <el-radio v-model="sex" label="1">男</el-radio>
               <el-radio v-model="sex" label="2">女</el-radio>
-            </el-col>
-          </el-row>
-          <el-row style="margin-top: 10px;">
-            <el-col :span="4">学历:</el-col>
-            <el-col :span="10">
-              <el-select v-model="eduValue" placeholder="请选择">
+            </el-form-item>
+            <el-form-item label="毕业院校" >
+              <el-input v-model="school" style="width: 300px"></el-input>
+            </el-form-item>
+            <el-form-item label="学历" >
+              <el-select v-model="eduValue" placeholder="请选择" style="width: 300px">
                 <el-option
                   v-for="item in eduOptions"
                   :key="item.value"
@@ -46,42 +41,91 @@
                   :value="item.value">
                 </el-option>
               </el-select>
-            </el-col>
-          </el-row>
-          <el-row style="margin-top: 10px;">
-            <el-col :span="4">出生日期:</el-col>
-            <el-col :span="10">
+            </el-form-item>
+            <el-form-item label="出生日期">
               <el-date-picker
                 v-model="birthday"
                 type="date"
+                style="width: 300px"
                 placeholder="选择日期">
               </el-date-picker>
-            </el-col>
-          </el-row>
-          <el-row style="margin-top: 10px;">
-            <el-col :span="4">工作经验:</el-col>
-            <el-col :span="10"><el-input v-model="workyear" placeholder="工作经验" size="2"></el-input></el-col>
-          </el-row>
-          <el-row style="margin-top: 10px;">
-            <el-col :span="4">所在城市:</el-col>
-            <el-col :span="10">
+            </el-form-item>
+            <el-form-item label="所在城市">
               <el-cascader
                 v-model="cityArray"
                 :options="cityOptions"
                 :show-all-levels="false"
+                style="width: 300px"
               ></el-cascader>
-            </el-col>
-          </el-row>
+            </el-form-item>
+            <el-form-item>
+              <el-button type="primary" @click="saveHandler">保存</el-button>
+              <el-button>取消</el-button>
+            </el-form-item>
+          </el-form>
         </el-col>
+        <!--<el-col :span="16">-->
+          <!--<el-row style="margin-top: 10px;">-->
+            <!--<el-col :span="4">毕业院校:</el-col>-->
+            <!--<el-col :span="10"><el-input v-model="school" placeholder="学校" size="2"></el-input></el-col>-->
+          <!--</el-row>-->
+          <!--<el-row style="margin-top: 10px;">-->
+            <!--<el-col :span="4">性  别:</el-col>-->
+            <!--<el-col :span="10">-->
+              <!--<el-radio v-model="sex" label="0">保密</el-radio>-->
+              <!--<el-radio v-model="sex" label="1">男</el-radio>-->
+              <!--<el-radio v-model="sex" label="2">女</el-radio>-->
+            <!--</el-col>-->
+          <!--</el-row>-->
+          <!--<el-row style="margin-top: 10px;">-->
+            <!--<el-col :span="4">学历:</el-col>-->
+            <!--<el-col :span="10">-->
+              <!--<el-select v-model="eduValue" placeholder="请选择">-->
+                <!--<el-option-->
+                  <!--v-for="item in eduOptions"-->
+                  <!--:key="item.value"-->
+                  <!--:label="item.label"-->
+                  <!--:value="item.value">-->
+                <!--</el-option>-->
+              <!--</el-select>-->
+            <!--</el-col>-->
+          <!--</el-row>-->
+          <!--<el-row style="margin-top: 10px;">-->
+            <!--<el-col :span="4">出生日期:</el-col>-->
+            <!--<el-col :span="10">-->
+              <!--<el-date-picker-->
+                <!--v-model="birthday"-->
+                <!--type="date"-->
+                <!--placeholder="选择日期">-->
+              <!--</el-date-picker>-->
+            <!--</el-col>-->
+          <!--</el-row>-->
+          <!--<el-row style="margin-top: 10px;">-->
+            <!--<el-col :span="4">工作经验:</el-col>-->
+            <!--<el-col :span="10"><el-input v-model="workyear" placeholder="工作经验" size="2"></el-input></el-col>-->
+          <!--</el-row>-->
+          <!--<el-row style="margin-top: 10px;">-->
+            <!--<el-col :span="4">所在城市:</el-col>-->
+            <!--<el-col :span="10">-->
+              <!--<el-cascader-->
+                <!--v-model="cityArray"-->
+                <!--:options="cityOptions"-->
+                <!--:show-all-levels="false"-->
+              <!--&gt;</el-cascader>-->
+            <!--</el-col>-->
+          <!--</el-row>-->
+        <!--</el-col>-->
+
       </el-row>
-      <el-row :gutter="24" style="margin-top: 20px;">
-        <el-col :span="12">
-          <el-button >取消</el-button>
-        </el-col>
-        <el-col :span="12">
-          <el-button type="primary" @click="saveHandler">保存</el-button>
-        </el-col>
-      </el-row>
+      <!--<el-row :gutter="24" style="margin-top: 20px;">-->
+        <!--<el-col :span="12">-->
+          <!--<span> </span>-->
+        <!--</el-col>-->
+        <!--<el-col :span="12">-->
+          <!--<el-button >取消</el-button>-->
+          <!--<el-button type="primary" @click="saveHandler">保存</el-button>-->
+        <!--</el-col>-->
+      <!--</el-row>-->
     </div>
 
   </div>

@@ -1,6 +1,6 @@
 <template>
-  <el-row :gutter="24" style="margin-top: 20px">
-    <el-col :span="4">
+  <el-container style="height: 100%">
+    <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
       <div class="menu-aside-div">
         <el-row ><img class="logo-aside" src="../../static/images/logo.png"></el-row>
         <!--<div class="logo-aside">招聘信息可视化系统</div>-->
@@ -12,120 +12,122 @@
           </el-menu-item>
         </el-menu>
       </div>
-    </el-col>
-    <el-col :span="20" style="padding-right: 0">
-      <el-row>
-        <div class="menu-header">
-        <div style="float: left;margin-left: 20px;">
-          <el-row ><div class="heder-title">招聘信息可视化系统</div></el-row>
-        </div>
-          <span class="userImage">
-            <i class="el-icon-message-solid" style="color: #3C5175;margin-right: 30px" aria-hidden="true"></i>
-            <el-dropdown @command="handleCommand">
+    </el-aside>
+    <el-container>
+      <el-header style="text-align: right; font-size: 12px">
+        <el-row style="margin-left: 20px">
+          <div class="menu-header">
+            <div style="float: left;margin-left: 20px;">
+              <el-row ><div class="heder-title">招聘信息可视化系统</div></el-row>
+            </div>
+            <span class="userImage">
+              <!--<i class="el-icon-message-solid" style="color: #3C5175;margin-right: 30px" aria-hidden="true"></i>-->
+              <el-dropdown @command="handleCommand" style="margin-top: 10%;font-size: 16px;margin-right: 10%">
               <!--<i class="el-icon-setting" style="margin-right: 15px"></i>-->
               <i class="el-icon-s-custom" style="color: #3C5175;" aria-hidden="true"><span>{{username}}</span></i>
               <el-dropdown-menu slot="dropdown">
                 <el-dropdown-item command="a">关注与收藏</el-dropdown-item>
-                <el-dropdown-item command="b">
-                  求职意向
-                </el-dropdown-item>
+                <el-dropdown-item command="b">求职意向</el-dropdown-item>
                 <el-dropdown-item command="c">我的主页</el-dropdown-item>
                 <el-dropdown-item command="d">资料修改</el-dropdown-item>
                 <el-dropdown-item command="e">注销</el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
-          </span>
-          <el-dialog
-            title="求职意向"
-            :visible.sync="dialogVisible"
-            width="30%">
-            <el-row :gutter="24">
-              <el-col :span="8">岗位:</el-col>
-              <el-col :span="16">
-                <el-cascader
-                  v-model="jobfunctionArray"
-                  :options="jobfunctionOptions"
-                  :show-all-levels="false"
-                ></el-cascader>
-              </el-col>
-            </el-row>
-            <el-row :gutter="24">
-              <el-col :span="8">工作城市:</el-col>
-              <el-col :span="16">
-                <el-cascader
-                  v-model="cityArray"
-                  :options="cityOptions"
-                  :show-all-levels="false"
-                ></el-cascader>
-              </el-col>
-            </el-row>
-            <el-row :gutter="24">
-              <el-col :span="8">行业:</el-col>
-              <el-col :span="16">
-                <el-cascader
-                  v-model="industryArray"
-                  :options="industryOptions"
-                  :show-all-levels="false"
-                ></el-cascader>
-              </el-col>
-            </el-row>
-            <el-row :gutter="24">
-              <el-col :span="8">工作经验:</el-col>
-              <el-col :span="16">
-                <el-select v-model="workyearValue" placeholder="请选择">
-                  <el-option
-                    v-for="item in workyearOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-col>
-            </el-row>
-            <el-row :gutter="24">
-              <el-col :span="8">公司规模:</el-col>
-              <el-col :span="16">
-                <el-select v-model="companysizeValue" placeholder="请选择">
-                  <el-option
-                    v-for="item in companysizeOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-col>
-            </el-row>
-            <el-row :gutter="24">
-              <el-col :span="8">学历:</el-col>
-              <el-col :span="16">
-                <el-select v-model="eduValue" placeholder="请选择">
-                  <el-option
-                    v-for="item in eduOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value">
-                  </el-option>
-                </el-select>
-              </el-col>
-            </el-row>
-            <el-row :gutter="24">
-              <el-col :span="8">期望薪资范围:</el-col>
-              <el-col :span="7"><el-input v-model="salary_low" placeholder="最低"></el-input></el-col>
-              <el-col :span="2" style="padding-top: 10px">-</el-col>
-              <el-col :span="7"><el-input v-model="salary_high" placeholder="最高"></el-input></el-col>
-            </el-row>
-            <span slot="footer" class="dialog-footer">
+            </span>
+            <el-dialog
+              title="求职意向"
+              :visible.sync="dialogVisible"
+              width="30%">
+              <el-row :gutter="24">
+                <el-col :span="8">岗位:</el-col>
+                <el-col :span="16">
+                  <el-cascader
+                    v-model="jobfunctionArray"
+                    :options="jobfunctionOptions"
+                    :show-all-levels="false"
+                  ></el-cascader>
+                </el-col>
+              </el-row>
+              <el-row :gutter="24">
+                <el-col :span="8">工作城市:</el-col>
+                <el-col :span="16">
+                  <el-cascader
+                    v-model="cityArray"
+                    :options="cityOptions"
+                    :show-all-levels="false"
+                  ></el-cascader>
+                </el-col>
+              </el-row>
+              <el-row :gutter="24">
+                <el-col :span="8">行业:</el-col>
+                <el-col :span="16">
+                  <el-cascader
+                    v-model="industryArray"
+                    :options="industryOptions"
+                    :show-all-levels="false"
+                  ></el-cascader>
+                </el-col>
+              </el-row>
+              <el-row :gutter="24">
+                <el-col :span="8">工作经验:</el-col>
+                <el-col :span="16">
+                  <el-select v-model="workyearValue" placeholder="请选择">
+                    <el-option
+                      v-for="item in workyearOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-col>
+              </el-row>
+              <el-row :gutter="24">
+                <el-col :span="8">公司规模:</el-col>
+                <el-col :span="16">
+                  <el-select v-model="companysizeValue" placeholder="请选择">
+                    <el-option
+                      v-for="item in companysizeOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-col>
+              </el-row>
+              <el-row :gutter="24">
+                <el-col :span="8">学历:</el-col>
+                <el-col :span="16">
+                  <el-select v-model="eduValue" placeholder="请选择">
+                    <el-option
+                      v-for="item in eduOptions"
+                      :key="item.value"
+                      :label="item.label"
+                      :value="item.value">
+                    </el-option>
+                  </el-select>
+                </el-col>
+              </el-row>
+              <el-row :gutter="24">
+                <el-col :span="8">期望薪资范围:</el-col>
+                <el-col :span="7"><el-input v-model="salary_low" placeholder="最低"></el-input></el-col>
+                <el-col :span="2" style="padding-top: 10px">-</el-col>
+                <el-col :span="7"><el-input v-model="salary_high" placeholder="最高"></el-input></el-col>
+              </el-row>
+              <span slot="footer" class="dialog-footer">
               <el-button @click="dialogVisible = false">取 消</el-button>
               <el-button type="primary" @click="saveHandler">确 定</el-button>
             </span>
-          </el-dialog>
+            </el-dialog>
+          </div>
+        </el-row>
+      </el-header>
+      <el-main>
+        <div style="margin-top: -30px">
+          <component :is="activeComponent" v-bind:want_jobfunction="jobfunctionArray[1]"></component>
         </div>
-      </el-row>
-      <div>
-        <component :is="activeComponent" v-bind:want_jobfunction="jobfunctionArray[1]"></component>
-      </div>
-    </el-col>
-  </el-row>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
 <script>
   import JobsVisualization from "@/views/JobsVisualization"
@@ -394,7 +396,8 @@
 </script>
 <style>
   .menu-header{
-    height: 40px;
+    height: 50px;
+    /*height: max-content;*/
     background: #FFFFFF;
     box-shadow:2px 0px 5px 0px rgba(172,200,219,0.46);
     margin-left: -22px;
@@ -417,7 +420,7 @@
   }
   .menu-aside-div{
     box-shadow:1px 0px 0px 0px rgba(116,116,116,0.07);
-    height:600px;
+    height:100%;
     background: rgb(57,59,106);
   }
   .el-menu-vertical-demo{
