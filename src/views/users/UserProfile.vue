@@ -19,7 +19,7 @@
             </el-col>
             <el-col :span="10">
               <el-row ><span>性别:{{sex}}</span></el-row>
-              <el-row style="margin-top: 10px;"><span>联系电话:{{“mobilenum}}</span></el-row>
+              <el-row style="margin-top: 10px;"><span>联系电话:{{mobilenum}}</span></el-row>
               <el-row style="margin-top: 10px;"><span>出生日期:{{birthday}}</span></el-row>
               <el-row style="margin-top: 10px;"><span>所在城市:{{city}}</span></el-row>
             </el-col>
@@ -108,7 +108,6 @@
     },
     mounted(){
       this.drawBie();
-      // this.drawCalender();
     },
     created(){
       this.getUserProfileId();
@@ -137,11 +136,12 @@
             this.email = result['email'];
             this.school = result['school'];
             this.city = result['city_name'];
+            this.mobilenum = result['mobilenum'];
             this.sex = this.sexs[result['sex']];
             this.birthday = this.getyyyyMMdd(new Date((result['birthday']==null)?"1970-01-01":result['birthday']));
             this.workyear = result['work_year'];
             this.edcation = result['education_name'];
-            this.mobilenum = result['mobile_num'];
+            this.mobilenum = result['mobilenum'];
           }
         }).catch(function (error)
         {

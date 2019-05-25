@@ -20,7 +20,6 @@
   require('echarts/extension/bmap/bmap');
   export default {
     name: "CompanyVisualization",
-    props: ["want_jobfunction"],
     data(){
       return{
         want_jobfunction_id: '',
@@ -32,7 +31,8 @@
     created(){
     },
     mounted(){
-      this.want_jobfunction_id = this.want_jobfunction;
+      let userInfo = this.$store.state.userInfo;
+      this.want_jobfunction_id = userInfo['jobfunction'];
       if (this.want_jobfunction_id === 2){
         this.want_jobfunction_id = '';
       }
@@ -806,7 +806,6 @@
         for( let paralle of this.paralleData){
           data[paralle['p']].push([paralle['c'],paralle['s'],paralle['q'],paralle['i']]);
         }
-        console.log(data)
 
         var schema = [
           {name: 'date', index: 0, text: '城市'},
@@ -1095,195 +1094,6 @@
         };
         myChart.setOption(option);
       },
-      drawPointChart(){
-        let myChart = this.$echarts.init(document.getElementById("cityChart"));
-        myChart.setOption({
-          title:{
-            text: "行业-岗位/薪资"
-          },
-          // backgroundColor: '#404a59',
-          animation: true,
-          animationDuration: 1000,
-          animationEasing: 'cubicInOut',
-          animationDurationUpdate: 1000,
-          animationEasingUpdate: 'cubicInOut',
-          dataset: {
-            source: [
-              ['score', 'amount', 'product'],
-              [89.3, 58212, '成都'],
-              [57.1, 78254, '上海'],
-              [74.4, 41032, '北京'],
-              [50.1, 12755, '杭州'],
-              [89.7, 20145, '广州'],
-              [68.1, 79146, '深圳'],
-              [19.6, 91852, '苏州'],
-              [10.6, 101852, '青岛'],
-              [32.7, 20112, '重庆']
-            ]
-          },
-          grid: {containLabel: true},
-          xAxis: {name: 'amount',show: false},
-          yAxis: {type: 'category'},
-          visualMap: {
-            orient: 'horizontal',
-            left: 'center',
-            min: 10,
-            max: 100,
-            text: ['High Score', 'Low Score'],
-            // Map the score column to color
-            dimension: 0,
-            inRange: {
-              color: ['#D7DA8B', '#E15457']
-            }
-          },
-          series: [
-            {
-              type: 'bar',
-              encode: {
-                // Map the "amount" column to X axis.
-                x: 'amount',
-                // Map the "product" column to Y axis
-                y: 'product'
-              }
-            }
-          ]
-        })
-      },
-      drawRoseChart(){
-        let myChart = this.$echarts.init(document.getElementById("roseChart"));
-        myChart.setOption({
-            title : {
-              text: '学历/工作经验-岗位分布',
-              // subtext: '纯属虚构',
-              x:'center'
-            },
-            // tooltip : {
-            //   trigger: 'item',
-            //   formatter: "{a} <br/>{b} : {c} ({d}%)"
-            // },
-            legend: {
-              x : 'center',
-              y : 'bottom',
-              data:['rose1','rose2','rose3','rose4']
-            },
-            // toolbox: {
-            //   show : true,
-            //   feature : {
-            //     mark : {show: true},
-            //     dataView : {show: true, readOnly: false},
-            //     magicType : {
-            //       show: true,
-            //       type: ['pie', 'funnel']
-            //     },
-            //     restore : {show: true},
-            //     saveAsImage : {show: true}
-            //   }
-            // },
-            calculable : true,
-            series : [
-              {
-                name:'半径模式',
-                type:'pie',
-                radius : [20, 80],
-                // center : ['25%', '50%'],
-                roseType : 'radius',
-                label: {
-                  normal: {
-                    show: false
-                  },
-                  emphasis: {
-                    show: true
-                  }
-                },
-                // lableLine: {
-                //   normal: {
-                //     show: false
-                //   },
-                //   emphasis: {
-                //     show: true
-                //   }
-                // },
-                data:[
-                  {value:10, name:'rose1'},
-                  {value:20, name:'rose2'},
-                  {value:15, name:'rose3'},
-                  {value:25, name:'rose4'},
-                ]
-              }
-              // {
-              //   name:'面积模式',
-              //   type:'pie',
-              //   radius : [30, 110],
-              //   center : ['75%', '50%'],
-              //   roseType : 'area',
-              //   data:[
-              //     {value:10, name:'rose1'},
-              //     {value:5, name:'rose2'},
-              //     {value:15, name:'rose3'},
-              //     {value:25, name:'rose4'},
-              //     {value:20, name:'rose5'},
-              //     {value:35, name:'rose6'},
-              //     {value:30, name:'rose7'},
-              //     {value:40, name:'rose8'}
-              //   ]
-              // }
-            ]
-          }
-        )
-      },
-      drawEducationBar(){
-        let myCahrt = this.$echarts.init(document.getElementById("educationBar"));
-        var myOption={
-          series: [{
-            name: '舆情信息',
-            type: 'wordCloud',
-            size: ['90%', '90%'],
-            textRotation : [-90, 90],
-            shape: 'circle',
-            autoSize: {
-              enable: true,
-              minSize: 14
-            },
-            textStyle: {
-              normal: {
-                color: function() {
-                  return 'rgb(' + [
-                    Math.round(Math.random() * 160),
-                    Math.round(Math.random() * 160),
-                    Math.round(Math.random() * 160)
-                  ].join(',') + ')';
-                }
-              },
-              emphasis: {
-                shadowBlur: 10,
-                shadowColor: '#333'
-              }
-            },
-            data:[
-              {
-                name: "OFO小黄车",
-                value: 224,
-              },{
-            name: "车锁坏",
-            value: 2142,
-          },{
-          name: "不好骑行",
-          value: 12,
-        },{
-          name: "踏板不灵",
-          value: 99,
-        },{
-            name: "押金不退",
-              value: 20,
-          },{
-            name: "摩拜单车",
-              value: 1230,
-          },
-        ]
-        }]
-        };
-        myCahrt.setOption(myOption);
-      }
     }
   }
 </script>

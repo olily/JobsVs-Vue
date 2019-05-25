@@ -17,7 +17,7 @@
             活跃企业
           </el-row>
           <el-row class="el-row-h2-data">
-            {{recommendjobs}}个
+            {{activecompanycount}}个
           </el-row>
         </div>
       </el-col>
@@ -54,7 +54,7 @@
   import NoticeCompanyJobs from "@/views/recommend/NoticeCompanyJobs"
   import YesterdayAddJobs from "@/views/recommend/YesterdayAddJobs"
   import HomeComponent from "@/views/HomeComponent"
-  import {getJobs} from '../api/api'
+  import {getJobs,getCompanies} from '../api/api'
     export default {
       name: "JobsRecommend",
       components:
@@ -68,7 +68,8 @@
       data(){
         return{
           activeComponent: HomeComponent,
-          recommendjobs:'12345',
+          recommendjobs:'203',
+          activecompanycount: 0,
           yesterdayaddjobscount: 0,
           focuscompanyJobcount: 0,
         }
@@ -77,6 +78,7 @@
         this.yesterday = this.getDateStr(-1);
         this.getYesterdayJob();
         this.getFocusCompanyJob();
+        this.getActiveCompany();
       },
       mounted(){
         let that = this;
@@ -110,6 +112,17 @@
           }).then((response)=> {
             let data = response.data;
             this.yesterdayaddjobscount = data.count;
+          }).catch(function (error) {
+            console.log(error);
+          });
+        },
+        getActiveCompany() {
+          getCompanies({
+            ordering: '-yesterday_count',
+            yesterday_count_min: 40,
+          }).then((response)=> {
+            let data = response.data;
+            this.activecompanycount = data.count;
           }).catch(function (error) {
             console.log(error);
           });

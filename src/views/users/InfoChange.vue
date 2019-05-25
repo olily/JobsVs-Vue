@@ -30,7 +30,7 @@
               <el-radio v-model="sex" label="2">女</el-radio>
             </el-form-item>
             <el-form-item label="联系电话" >
-              <el-input v-model="school" style="width: 300px"></el-input>
+              <el-input v-model="mobilenum" style="width: 300px"></el-input>
             </el-form-item>
             <el-form-item label="毕业院校" >
               <el-input v-model="school" style="width: 300px"></el-input>
@@ -83,6 +83,7 @@
         dialogImageUrl: '',
         dialogVisible: false,
         school: '',
+        mobilenum: '',
         imageUrl: '',
         sex: '1',
         workyear: '0',
@@ -130,6 +131,7 @@
             this.userProfileId = result['id'];
             this.eduValue = result['education'].toString();
             this.school = result['school'];
+            this.mobilenum = result['mobilenum'];
             this.sex = result['sex'].toString();
             this.birthday = result['birthday'];
             this.workyear = result['work_year'];
@@ -174,6 +176,7 @@
           work_year: this.workyear,
           school: this.school,
           sex: this.sex,
+          mobilenum: this.mobilenum,
           city: this.cityArray[1],
           birthday: this.fmtDate(this.birthday),
           education: this.eduValue

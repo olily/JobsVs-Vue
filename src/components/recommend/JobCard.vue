@@ -19,7 +19,8 @@
       <el-row :gutter="24" class="card-company">
         <el-col :span="4">
           <div>
-            <img class="card-company-logo" src="../../static/images/company/co144024.gif">
+            <img class="card-company-logo" v-if="job.company_image!=='None'" :src="job.company_image">
+            <img class="card-company-logo" v-else src="../../static/images/company/company.png">
           </div>
         </el-col>
         <el-col :span="20">

@@ -123,7 +123,7 @@
       </el-header>
       <el-main>
         <div style="margin-top: -30px">
-          <component :is="activeComponent" v-bind:want_jobfunction="jobfunctionArray[1]"></component>
+          <component :is="activeComponent"></component>
         </div>
       </el-main>
     </el-container>
@@ -132,9 +132,8 @@
 <script>
   import JobsVisualization from "@/views/JobsVisualization"
   import CompanyVisualization from "@/views/CompanyVisualization"
-  import UserHome from "@/views/UserHome"
+  import GeneralVisualization from "@/views/GeneralVisualization"
   import JobsRecommend from "@/views/JobsRecommend"
-  import test from "@/views/test"
   import CollectList from "@/views/users/CollectList"
   import InfoChange from "@/views/users/InfoChange"
   import UserProfile from "@/views/users/UserProfile"
@@ -145,23 +144,6 @@
     data() {
       return {
         dialogVisible: false,
-        gridData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }],
         username:'Simona',
         vermenuList: [
           {
@@ -174,7 +156,7 @@
             name: "总体情况",
             index: "2",
             icon: "el-icon-s-data",
-            component: UserHome,
+            component: GeneralVisualization,
           },
           {
             name: "岗位分析",
@@ -188,15 +170,9 @@
             icon: "el-icon-s-grid",
             component: CompanyVisualization,
           },
-          // {
-          //   name: "测试",
-          //   index: "5",
-          //   icon: "el-icon-s-grid",
-          //   component: test,
-          // },
         ],
         defaultIndex: '3',
-        activeComponent : JobsVisualization,
+        activeComponent : JobsRecommend,
         input1: '',
         salary_low: '',
         salary_high: '',
@@ -278,7 +254,7 @@
     components:
       {
         JobsVisualization,
-        UserHome,
+        GeneralVisualization,
         JobsRecommend,
         CollectList,
         InfoChange,
@@ -324,6 +300,7 @@
         cookie.delCookie('id');
         cookie.delCookie('token');
         cookie.delCookie('name');
+        cookie.delCookie('jobfunction');
         localStorage.removeItem('collectjobs');
         localStorage.removeItem('focuscompanies');
         this.$store.dispatch('setInfo');
@@ -365,6 +342,9 @@
           want_companysize: this.companysizeValue
         }).then((response)=> {
           if(response.status === 200){
+            cookie.delCookie('jobfunction');
+            cookie.setCookie('jobfunction', this.jobfunctionArray[1], 7);
+            this.$store.dispatch('setInfo');
             this.$message.success("修改成功");
           }else{
             console.log("你没有权限");

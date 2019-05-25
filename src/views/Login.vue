@@ -64,20 +64,8 @@
 
 <script>
   import SIdentify from '../components/common/Identify'
-  import {login, register,getUser,getCollectJobs,getFocusCompanies} from '../api/api'
+  import {login, register,getUser,getCollectJobs,getFocusCompanies,getUserWantJob} from '../api/api'
   import cookie from '../static/js/cookie'
-
-    // export const validator={
-    //   emailValue(rule, value, callback) {
-    //     let temp = /^[\w.\-]+@(?:[a-z0-9]+(?:-[a-z0-9]+)*\.)+[a-z]{2,3}$/
-    //     let tempOne = /^[A-Za-zd]+([-_.][A-Za-zd]+)*@([A-Za-zd]+[-.])+[A-Za-zd]{2,5}$/
-    //     if (value && (!(temp).test(value))) {
-    //       callback(new Error('邮箱格式不符合规范'))
-    //     } else {
-    //       callback()
-    //     }
-    //   },
-    // };
 
     export default {
       name: "Login",
@@ -151,6 +139,7 @@
               }).then((res) => {
                 cookie.setCookie('id', res.data[0].id, 7);
                 this.$store.dispatch('setInfo');
+                this.getUserWantJobId();
                 this.getCollectJob();
                 this.getFocusCompany();
                 this.$message.success('登陆成功');
@@ -186,7 +175,7 @@
                 cookie.setCookie('id', response.data.id, 7);
                 cookie.setCookie('token', response.data.token, 7);
                 this.$store.dispatch('setInfo');
-                this.$message.success('注册成功');
+              this.$message.success('注册成功');
             }).catch(function (error) {
               console.log(error);
               that.$message.error('注册失败');
@@ -197,6 +186,7 @@
           cookie.delCookie('id');
           cookie.delCookie('token');
           cookie.delCookie('name');
+          cookie.delCookie('jobfunction');
           localStorage.removeItem('collectjobs');
           localStorage.removeItem('focuscompanies');
           this.$store.dispatch('setInfo');
@@ -208,6 +198,20 @@
         },
         loginClickHandler(){
           this.logOrReg = true;
+        },
+        getUserWantJobId(){
+          getUserWantJob({
+            user: this.$store.state.userInfo['id']
+          }).then((response)=> {
+            let data = response.data;
+            if (data.length>0){
+              cookie.setCookie('jobfunction', data[0]['want_jobfunction'], 7);
+              this.$store.dispatch('setInfo');
+            }
+          }).catch(function (error)
+          {
+            console.log(error);
+          })
         },
         getFocusCompany() {
           getFocusCompanies({

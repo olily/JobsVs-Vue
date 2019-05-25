@@ -14,7 +14,6 @@
       </el-row>
       <el-row><span class="el-table-title">企业新增岗位排名</span></el-row>
       <el-row :gutter="24">
-        <!--<div id="companyRankChart" class="recommed-chart"></div>-->
         <el-table
           :data="companies"
           id="companyRankTable"
@@ -60,7 +59,6 @@
         },
         mounted(){
           this.drawNewJobsChart();
-          this.drawComapnyRankChart();
         },
       methods: {
         sendMsgToParent(){
@@ -68,7 +66,7 @@
         },
         getYesterdayJob() {
           getJobs({
-            page_size: 8,
+            page_size: 12,
           }).then((response)=> {
             let data = response.data;
             this.jobs = data.results;
@@ -124,7 +122,7 @@
             xAxis: [
               {
                 type: 'category',
-                data: ["04-01", "04-02", "04-03", "04-04", "04-05", "04-06", "04-07"]
+                data: ["05-18", "05-19", "05-20", "05-21", "05-22", "05-23", "05-24"]
               }
             ],
             yAxis: [
@@ -170,70 +168,6 @@
             ]
           })
         },
-        drawComapnyRankChart() {
-          let myChart2 = this.$echarts.init(document.getElementById('companyRankChart'));
-          myChart2.setOption({
-            title: {
-              text: '今日新增岗位排名',
-              textStyle: {
-                fontStyle: 'normal',     //风格
-                fontWeight: 'normal',    //粗细
-                fontFamily: 'Microsoft yahei',   //字体
-                fontSize: 15,     //大小
-                align: 'center'   //水平对齐
-              }
-            },
-            dataset: {
-              source: [
-                ['score', 'amount', 'product'],
-                [89.3, 58212, '阿里'],
-                [57.1, 78254, '百度'],
-                [74.4, 41032, '腾讯'],
-                [50.1, 12755, '京东'],
-                [89.7, 20145, '菲尼克斯互娱'],
-                [68.1, 79146, '巨人网络'],
-                [19.6, 91852, '盛大游戏'],
-                [32.7, 20112, '肯德基总公司']
-              ]
-            },
-            grid: {containLabel: true},
-            xAxis: {
-              name: 'amount',
-              textStyle: {
-                fontStyle: 'normal',     //风格
-                fontWeight: 'normal',    //粗细
-                fontFamily: 'Microsoft yahei',   //字体
-                fontSize: 4,     //大小
-                align: 'center'   //水平对齐
-              }
-            },
-            yAxis: {type: 'category'},
-            color: "#8693F3",
-            // visualMap: {
-            //   orient: 'horizontal',
-            //   left: 'center',
-            //   min: 10,
-            //   max: 100,
-            //   text: ['High Score', 'Low Score'],
-            //   // Map the score column to color
-            //   dimension: 0,
-            //   inRange: {
-            //     color: ['#D7DA8B', '#E15457']
-            //   }
-            // },
-            series: [
-              {
-                type: 'bar',
-                encode: {
-                  // Map the "amount" column to X axis.
-                  x: 'amount',
-                  // Map the "product" column to Y axis
-                  y: 'product'
-                }
-              }
-            ]
-          });
-        }
       },
     }
 </script>

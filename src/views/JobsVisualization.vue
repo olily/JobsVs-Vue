@@ -32,7 +32,6 @@
   require('echarts/extension/bmap/bmap');
     export default {
       name: "JobsVisualization",
-      props: ["want_jobfunction"],
       data(){
         return{
           want_jobfunction_id: '',
@@ -45,7 +44,8 @@
       created(){
       },
       mounted(){
-        this.want_jobfunction_id = this.want_jobfunction;
+        let userInfo = this.$store.state.userInfo;
+        this.want_jobfunction_id = userInfo['jobfunction'];
         if (this.want_jobfunction_id === 2){
           this.want_jobfunction_id = '';
         }
@@ -64,7 +64,6 @@
             page_size: 10000
           }).then((response)=> {
             this.cities = response.data.results;
-            // console.log(response);
             this.drawMyMap();
           }).catch(function (error) {
             console.log(error);
@@ -122,9 +121,7 @@
             jobfunction: this.want_jobfunction_id,
             page_size: 10,
           }).then((response)=> {
-            // console.log("111");
             this.dynamicData = response.data.results;
-            // console.log(this.dynamicData);
             this.drawBarChart();
           }).catch(function (error) {
             console.log(error);
@@ -617,7 +614,7 @@
             },
             yAxis: {
               type: 'category',
-              name: 'TOP 5',
+              name: 'TOP 13',
               nameGap: 13,
               axisLine: {show: false, lineStyle: {color: '#ddd'}},
               axisTick: {show: false, lineStyle: {color: '#ddd'}},
@@ -657,7 +654,7 @@
                 name: 'Top 5',
                 type: 'effectScatter',
                 coordinateSystem: 'geo',
-                data: results.slice(0,6),
+                data: results.slice(0,5),
                 symbolSize: function (val) {
                   return Math.log2(val[2]);
                 },
@@ -1059,15 +1056,18 @@
           let myChart = this.$echarts.init(document.getElementById("dynamicChart"));
           var comDatas = [[],[],[],[]];
           var len =10;
+          var max_count = 0;
+          var max_salary = 0;
           for (var i=0;i<len;i++){
-            // console.log(i,this.dynamicData[0]);
             comDatas[0].push(this.dynamicData[i]['company_name']);
             comDatas[1].push(this.dynamicData[i]['count']);
             comDatas[2].push(this.dynamicData[i]['salary_low']);
             comDatas[3].push(this.dynamicData[i]['salary_high']);
-            // console.log(this.dynamicData[i]);
+            max_salary = (this.dynamicData[i]['salary_high']>max_salary)?
+              this.dynamicData[i]['salary_high']:max_salary;
           }
-          console.log(comDatas[0]);
+          max_count = this.dynamicData[0]['count']+5;
+          max_salary+=1000;
           var option = {
             title: {
               text: '企业排名',
@@ -1121,7 +1121,7 @@
                 type: 'value',
                 scale: true,
                 name: '薪资（元）',
-                max: 50000,
+                max: max_salary,
                 min: 0,
                 boundaryGap: [0.2, 0.2]
               },
@@ -1129,7 +1129,7 @@
                 type: 'value',
                 scale: true,
                 name: '岗位数',
-                max: 600,
+                max: max_count,
                 min: 0,
                 boundaryGap: [0.2, 0.2]
               }
@@ -1162,115 +1162,6 @@
           };
           myChart.setOption(option);
         },
-        drawRoseChart(){
-          let myChart = this.$echarts.init(document.getElementById("roseChart"));
-          myChart.setOption({
-            title : {
-              text: '学历/工作经验-岗位分布',
-              // subtext: '纯属虚构',
-              x:'center'
-            },
-            // tooltip : {
-            //   trigger: 'item',
-            //   formatter: "{a} <br/>{b} : {c} ({d}%)"
-            // },
-            legend: {
-              x : 'center',
-              y : 'bottom',
-              data:['无要求','初中及以下','高中/中技/中专','大专','本科','硕士','博士']
-            },
-            // toolbox: {
-            //   show : true,
-            //   feature : {
-            //     mark : {show: true},
-            //     dataView : {show: true, readOnly: false},
-            //     magicType : {
-            //       show: true,
-            //       type: ['pie', 'funnel']
-            //     },
-            //     restore : {show: true},
-            //     saveAsImage : {show: true}
-            //   }
-            // },
-            calculable : true,
-            series : [
-              {
-                name:'半径模式',
-                type:'pie',
-                radius : [20, 80],
-                // center : ['25%', '50%'],
-                roseType : 'radius',
-                label: {
-                  normal: {
-                    show: false
-                  },
-                  emphasis: {
-                    show: true
-                  }
-                },
-                // lableLine: {
-                //   normal: {
-                //     show: false
-                //   },
-                //   emphasis: {
-                //     show: true
-                //   }
-                // },
-                data:[
-                  {value:20900, name:'无经验'},
-                  {value:8000, name:'初中及以下'},
-                  {value:5000, name:'高中/中技/中专'},
-                  {value:25000, name:'大专'},
-                  {value:20000, name:'本科'},
-                  {value:9000, name:'硕士'},
-                  {value:7000, name:'博士'},
-                ]
-              }
-              // {
-              //   name:'面积模式',
-              //   type:'pie',
-              //   radius : [30, 110],
-              //   center : ['75%', '50%'],
-              //   roseType : 'area',
-              //   data:[
-              //     {value:10, name:'rose1'},
-              //     {value:5, name:'rose2'},
-              //     {value:15, name:'rose3'},
-              //     {value:25, name:'rose4'},
-              //     {value:20, name:'rose5'},
-              //     {value:35, name:'rose6'},
-              //     {value:30, name:'rose7'},
-              //     {value:40, name:'rose8'}
-              //   ]
-              // }
-            ]
-          }
-        )
-        },
-        drawEducationBar(){
-          let myCahrt = this.$echarts.init(document.getElementById("educationBar"));
-          myCahrt.setOption({
-            title:{
-              text: "学历/工作经验-薪资分布"
-            },
-            xAxis: {
-              type: 'category',
-              data: ['无要求','初中及以下','高中/中技/中专','大专','本科','硕士','博士'],
-              axisLabel:{
-                rotate:30,
-                interval:0
-              },
-            },
-            yAxis: {
-              type: 'value'
-            },
-            series: [{
-              data: [2500,3100,3378,5738,6452,8716,10020],
-              type: 'bar'
-            }]
-            }
-          )
-        }
       }
     }
 </script>

@@ -16,6 +16,7 @@ const userInfo = {
             id:cookie.getCookie('id') || null,
             name:cookie.getCookie('name') || null,
             token:cookie.getCookie('token') || null,
+            jobfunction:cookie.getCookie('jobfunction') || null,
         };
 const userCollectJobs = localStorage.getItem('collectjobs') || null;
 const userFocusCompanies = localStorage.getItem('focuscompanies') || null;

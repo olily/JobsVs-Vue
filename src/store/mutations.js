@@ -12,7 +12,8 @@ export default {
         state.userInfo = {
             id:cookie.getCookie('id'),
             name:cookie.getCookie('name'),
-            token:cookie.getCookie('token')
+            token:cookie.getCookie('token'),
+            jobfunction:cookie.getCookie('jobfunction')
         };
     },
     [types.SET_COLLECTJOBS] (state) {

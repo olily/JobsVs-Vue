@@ -176,6 +176,7 @@
       getCompany(e) {
         getCompanies({
           ordering: '-yesterday_count',
+          yesterday_count_min: 40,
           name: this.companyname,
           size: this.companysizeValue,
           quality: this.companyqualityValue,
@@ -193,6 +194,7 @@
         this.curPage = e;
         getCompanies({
           ordering: '-yesterday_count',
+          yesterday_count_min: 40,
           name: this.companyname,
           size: this.companysizeValue,
           quality: this.companyqualityValue,
@@ -209,6 +211,7 @@
       searchHandle(){
         getCompanies({
           ordering: '-yesterday_count',
+          yesterday_count_min: 40,
           name: this.companyname,
           size: this.companysizeValue,
           quality: this.companyqualityValue,
