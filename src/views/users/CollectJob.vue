@@ -96,7 +96,7 @@
         search: '',
         jobs: [],
         curPage: 1,
-        pageSize: 10,
+        pageSize: 5,
         total: 1000,
         that: this,
       }
