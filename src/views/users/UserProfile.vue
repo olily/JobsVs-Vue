@@ -13,14 +13,15 @@
               <el-row ><span>用户名:{{this.$store.state.userInfo['name']}}</span></el-row>
               <el-row style="margin-top: 10px;"><span>邮箱:{{email}}</span></el-row>
               <el-row style="margin-top: 10px;"><span>毕业院校:{{school}}</span></el-row>
+              <el-row style="margin-top: 10px;"><span>我的学历:{{edcation}}</span></el-row>
               <el-row style="margin-top: 10px;"><span>工作经验:{{workyear}}</span></el-row>
 
             </el-col>
             <el-col :span="10">
               <el-row ><span>性别:{{sex}}</span></el-row>
+              <el-row style="margin-top: 10px;"><span>联系电话:{{“mobilenum}}</span></el-row>
               <el-row style="margin-top: 10px;"><span>出生日期:{{birthday}}</span></el-row>
               <el-row style="margin-top: 10px;"><span>所在城市:{{city}}</span></el-row>
-              <el-row style="margin-top: 10px;"><span>我的学历:{{edcation}}</span></el-row>
             </el-col>
           </el-row>
         </div>
@@ -101,7 +102,8 @@
         want_salary_low: '',
         want_salary_high: '',
         want_education: '',
-        birthday: ''
+        birthday: '',
+        mobilenum:''
       }
     },
     mounted(){
@@ -139,6 +141,7 @@
             this.birthday = this.getyyyyMMdd(new Date((result['birthday']==null)?"1970-01-01":result['birthday']));
             this.workyear = result['work_year'];
             this.edcation = result['education_name'];
+            this.mobilenum = result['mobile_num'];
           }
         }).catch(function (error)
         {
