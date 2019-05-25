@@ -59,7 +59,14 @@
                 industries[industry['catg_name']] = data.length;
                 data.push({
                   name: industry['catg_name'],
-                  children: []
+                  children: [{
+                    name: industry['in_name'],
+                    children: [
+                      {
+                        name: industry['salary_avg'],
+                        value: industry['count']}
+                    ]
+                  }]
                 })
               }
             }
@@ -131,7 +138,14 @@
                 jobfunctions[jobfunction['catg_name']] = data.length;
                 data.push({
                   name: jobfunction['catg_name'],
-                  children: []
+                  children: [{
+                    name: jobfunction['fun_name'],
+                    children: [
+                      {
+                        name: jobfunction['salary_avg'],
+                        value: jobfunction['count']}
+                    ]
+                  }]
                 })
               }
             }
@@ -203,7 +217,14 @@
                 provinces[city['pro_name']] = data.length;
                 data.push({
                   name: city['pro_name'],
-                  children: []
+                  children: [{
+                    name: city['city_name'],
+                    children: [
+                      {
+                        name: city['salary_avg'],
+                        value: city['count']}
+                    ]
+                  }]
                 })
               }
             }
