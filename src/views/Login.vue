@@ -71,6 +71,7 @@
       name: "Login",
       data(){
         return{
+          isClickReg: false,
           logOrReg: true,
           input:'',
           activeName: 'second',
@@ -118,7 +119,7 @@
       },
       methods: {
         loginHandler(){
-          if (this.loginform.identifyCodeinput.length !== 4){//验证码
+          if (this.loginform.identifyCodeinput !== this.identifyCode){//验证码
             this.$message.error('验证码有误')
           } else if( this.loginform.user.length ===0){//账号
             this.$message.error('账号不能为空')
@@ -153,7 +154,7 @@
           }
         },
         registerHandler(){
-          if (this.registerform.identifyCodeinput.length !== 4){//验证码
+          if (this.registerform.identifyCodeinput.length !== this.identifyCode){//验证码
             this.$message.error('验证码有误')
           } else if( this.registerform.user.length<4 || this.registerform.user.length>13){//账号长度
             this.$message.error('账号不规范，请重新输入')
@@ -195,6 +196,7 @@
         },
         registerClickHandler(){
           this.logOrReg = false;
+          this.isClickReg = true;
         },
         loginClickHandler(){
           this.logOrReg = true;
@@ -271,8 +273,6 @@
               this.randomNum(0, this.identifyCodes.length)
               ];
           }
-          console.log(this.identifyCode);
-          // identifyCodeCurrent = this.identifyCode;
 
         },
       },
@@ -283,6 +283,12 @@
         this.identifyCode = "";
         this.makeCode(this.identifyCodes, 4);
       },
+      updated(){
+        if (this.isClickReg === true){
+          this.isClickReg = false;
+          this.refreshCode();
+        }
+      }
     }
 </script>
 

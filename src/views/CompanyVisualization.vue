@@ -774,7 +774,7 @@
             calculable: true,
             orient: 'horizontal',
             left: 'center',
-            bottom: '15%'
+            bottom: '10%'
           },
           series: [{
             name: 'Punch Card',
@@ -804,12 +804,11 @@
           [], [], [], [], [],
         ];
         for( let paralle of this.paralleData){
-          data[paralle['p']].push([paralle['c'],paralle['s'],paralle['q'],paralle['i']]);
+          data[paralle['p']].push([paralle['p']-1,paralle['s']-1,paralle['q']-1,paralle['i']-2]);
         }
-
         var schema = [
-          {name: 'date', index: 0, text: '城市'},
-          {name: 'AQIindex', index: 1, text: '规模'},
+          {name: 'date', index: 0, text: '省份'},
+          {name: 'AQIindex', index: 0, text: '规模'},
           {name: 'PM25', index: 2, text: '性质'},
           {name: 'PM10', index: 3, text: '行业'},
         ];
@@ -827,16 +826,48 @@
           },
           // backgroundColor: '#333',
           parallelAxis: [
-            {dim: 0, name: schema[0].text, inverse: true, nameLocation: 'start'},
-            {dim: 1, name: schema[1].text},
-            {dim: 2, name: schema[2].text},
-            {dim: 3, name: schema[3].text},
+            {
+              dim: 0,
+              name: schema[0].text,
+              inverse: true,
+              type: 'category',
+              nameLocation: 'start',
+              data: ['无','北京', '上海', '广东省', '深圳', '天津','重庆','江苏省',
+                '浙江省','四川省', '海南省', '福建省', '山东省', '江西省','广西','安徽省',
+                '河北省','河南省', '湖北省', '湖南省', '陕西省', '山西省','黑龙江省','辽宁省',
+                '吉林省','吉林省', '云南省', '贵州省', '甘肃省', '内蒙古','宁夏','西藏',
+                '新疆','青海省', '香港', '澳门', '台湾'],
+              axisTick :{interval:1},
+            },
+            {
+              dim: 1,
+              name: schema[1].text,
+              type: 'category',
+              data: ['无','少于50人', '50-150人', '150-500人', '500-1000人', '1000-5000人','5000-10000人','10000人以上'],
+              axisTick :{interval:1},
+            },
+            {
+              dim: 2,
+              name: schema[2].text,
+              type: 'category',
+              data: ['无','外资（欧美）', '外资（非欧美）', '合资', '国企',
+                '民营公司','外企代表处','政府机关','事业单位','创业公司','上市公司'],
+              axisTick :{interval:1},
+            },
+            {
+              dim: 3,
+              name: schema[3].text,
+              type: 'category',
+              data: ['无','计算机/互联网/通信/电子', '会计/金融/银行/保险', '贸易/消费/制造/营运', '制药/医疗',
+                '广告/媒体','房地产/建筑','专业服务/教育/培训','服务业','物流/运输','能源/原材料','政府/非营利组织/其他'],
+              axisTick :{interval:1},
+            },
           ],
           visualMap: {
             // show: true,
             min: 0,
-            max: 10,
-            dimension: 3,
+            max: 11,
+            dimension: 2,
             inRange: {
               color: ['#F5ECA4','#C0454D'],
               // colorAlpha: [0, 1]
@@ -844,7 +875,7 @@
             calculable: true,
             orient: 'horizontal',
             left: 'center',
-            bottom: '15%'
+            bottom: '10%'
           },
 
           parallel: {
