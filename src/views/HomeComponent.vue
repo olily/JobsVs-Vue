@@ -127,7 +127,7 @@
             work_year_min: this.work_year_low,
             salary_low_min: this.salary_low,
             salary_high_max: this.salary_high,
-            page_size: 16
+            page_size: 10
           }).then((response)=> {
             // console.log(response);
             let data = response.data;
@@ -141,7 +141,7 @@
         },
         getYesterdayJob() {
           getJobs({
-            page_size: 12,
+            page_size: 10,
           }).then((response)=> {
             let data = response.data;
             this.jobs = data.results;
@@ -152,7 +152,7 @@
         getCompany() {
           getCompanies({
             ordering: '-yesterday_count',
-            page_size: 10,
+            page_size: 5,
           }).then((response)=> {
             let data = response.data;
             this.companies = data.results;

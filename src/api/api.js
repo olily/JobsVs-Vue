@@ -72,8 +72,11 @@ export const getCitiesburst = params => { return axios.get(`${host}/citysun/`,{ 
 //获取个人信息
 export const getUserProfile = params => { return axios.get(`${host}/userprofile/`,{ params: params  })};
 //上传头像
+// export const uploadAvatar = (userId, params) => {return axios.patch(`${host}/userprofile/`+userId+'/', params,{
+//   headers:{'Content-Type':'multipart/form-data'}
+// })};
 export const uploadAvatar = (userId, params) => {return axios.patch(`${host}/userprofile/`+userId+'/', params,{
-  headers:{'Content-Type':'multipart/form-data'}
+  headers:{'Content-Type':'multipart/form-data','X-CSRFToken': cookie.getCookie('csrftoken')}
 })};
 //更新个人信息
 export const updateUserProfile = (userprofileId, params) => {return axios.patch(`${host}/userprofile/`+userprofileId+'/', params,{

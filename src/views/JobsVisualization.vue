@@ -521,6 +521,7 @@
               });
             }
           }
+          console.log(results);
           let option = {
             backgroundColor: '#404a59',
             animation: true,
@@ -574,7 +575,7 @@
             visualMap: {
               min: 0,
               max: 16000,
-              calculable: true,
+              // calculable: true,
               dimension: 3,
               inRange: {
                 color: ['#50a3ba', '#eac736', '#d94e5d']
@@ -695,7 +696,7 @@
                 symbol: 'none',
                 itemStyle: {
                   normal: {
-                    // color: '#ddb926'
+                    color: '#ddb926'
                   }
                 },
                 data: []
@@ -719,7 +720,6 @@
           function renderBrushed(params) {
             var mainSeries = params.batch[0].selected[0];
             var selectedItems = [];
-            var categoryData = [];
             var barData = [];
             var maxBar = 13;
             var sum = 0;
@@ -729,6 +729,7 @@
               var rawIndex = mainSeries.dataIndex[i];
               var dataItem = results[rawIndex];
               var pmValue = dataItem.value[2];
+              var categoryData = []
               sum += pmValue;
               count++;
               selectedItems.push(dataItem);
@@ -737,13 +738,10 @@
             selectedItems.sort(function (a, b) {
               return b.value[2] - a.value[2];
             });
-            var item;
-            barData.push(['city','count','salary']);
 
             for (var i = Math.min(selectedItems.length, maxBar)-1; i >=0; i--) {
-              // categoryData.push(selectedItems[i].name);
-              item = [selectedItems[i].name,selectedItems[i].value[2],selectedItems[i].value[3]];
-              barData.push(item);
+              categoryData.push(selectedItems[i].name);
+              barData.push(selectedItems[i].value[2]);
             }
             console.log(barData);
 
@@ -752,26 +750,16 @@
                 source:barData
               },
               grid: {containLabel: true},
-              yAxis: {type: 'category'},
-              xAxis: {name:'count'},
-              visualMap: {
-                min: 0,
-                max: 1600,
-                dimension: 2,
-                inRange: {
-                  color: ['#50a3ba', '#eac736', '#d94e5d']
-                },
-                textStyle: {
-                  color: '#fff'
-                }
+              yAxis: {
+                data: categoryData
               },
-              series:[ {
-                type: 'bar',
-                encode: {
-                  x: 'count',
-                  y: 'city'
-                }
-              }]
+              xAxis: {
+                axisLabel: {show: !!count}
+              },
+              series: {
+                id: 'bar',
+                data: barData
+              }
             });
           }
         },
@@ -819,7 +807,6 @@
               }
             },
             grid: {
-              containLabel: true,
               x: '10%',
               x2: 150,
               y: '18%',

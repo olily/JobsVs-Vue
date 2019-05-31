@@ -28,7 +28,7 @@
             <span class="card-job-name" >{{job.company_name}}</span>
           </el-row>
           <el-row class="card-job-edu">
-            <span> 互联网、餐饮 / {{job.city_name}} / {{job.companysize_name}}</span>
+            <span> {{job.city_name}} / {{job.companysize_name}}</span>
           </el-row>
         </el-col>
       </el-row>
@@ -86,8 +86,8 @@
   .card-company-logo{
     float:left;
     margin-left: 10px;
-    width: 45px;
-    height:45px;
+    width: 40px;
+    height:38px;
   }
 
 </style>

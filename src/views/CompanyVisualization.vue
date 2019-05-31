@@ -541,7 +541,6 @@
             trigger: 'item'
           },
           grid: {
-            containLabel: true,
             right: 40,
             top: 100,
             bottom: 40,
@@ -742,11 +741,13 @@
           },
           animation: false,
           grid: {
-            containLabel: true,
+            left:"16%",
+            // containLabel: true,
             height: '50%',
             y: '10%'
           },
           xAxis: {
+            // left:"20%",
             type: 'category',
             data: industries,
             //设置字体倾斜
