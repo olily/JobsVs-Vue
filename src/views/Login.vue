@@ -154,7 +154,7 @@
           }
         },
         registerHandler(){
-          if (this.registerform.identifyCodeinput.length !== this.identifyCode){//验证码
+          if (this.registerform.identifyCodeinput !== this.identifyCode){//验证码
             this.$message.error('验证码有误')
           } else if( this.registerform.user.length<4 || this.registerform.user.length>13){//账号长度
             this.$message.error('账号不规范，请重新输入')
