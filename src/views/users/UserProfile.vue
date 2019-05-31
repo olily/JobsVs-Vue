@@ -234,11 +234,11 @@
                 },
                 // padding: 20,
                 data:[
-                  {value:335, name:'计算机软件'},
-                  {value:310, name:'计算机硬件'},
-                  {value:234, name:'网络游戏'},
-                  {value:135, name:'互联网/电子商务'},
-                  {value:1548, name:'通信/电信/网络设备'}
+                  {value:3, name:'计算机软件'},
+                  {value:3, name:'计算机硬件'},
+                  {value:2, name:'网络游戏'},
+                  {value:2, name:'互联网/电子商务'},
+                  {value:1, name:'通信/电信/网络设备'}
                 ]
               }
             ]

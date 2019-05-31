@@ -13,7 +13,9 @@ export const getCompanies = params => { return axios.get(`${host}/company/`,{ pa
 export const getCollectJobs = params => { return axios.get(`${host}/usercollectjob/`,{ params: params  })};
 
 // 添加收藏岗位
-export const addCollectJob = params => { return axios.post(`${host}/usercollectjob/`,params)};
+export const addCollectJob = params => { return axios.post(`${host}/usercollectjob/`,params),{
+  headers:{'X-CSRFToken': cookie.getCookie('csrftoken')}
+}};
 
 //取消收藏岗位
 export const delCollectJob = collectjobId => {return axios.delete(`${host}/usercollectjob/`+collectjobId+'/')};
@@ -74,20 +76,28 @@ export const uploadAvatar = (userId, params) => {return axios.patch(`${host}/use
   headers:{'Content-Type':'multipart/form-data'}
 })};
 //更新个人信息
-export const updateUserProfile = (userprofileId, params) => {return axios.patch(`${host}/userprofile/`+userprofileId+'/', params)};
+export const updateUserProfile = (userprofileId, params) => {return axios.patch(`${host}/userprofile/`+userprofileId+'/', params,{
+  headers:{'X-CSRFToken': cookie.getCookie('csrftoken')}
+})};
 
 //获取期望工作
 export const getUserWantJob = params => { return axios.get(`${host}/userwantjob/`,{ params: params  })};
 //更新期望工作
-export const updateUserWantJob = (userwantjobId, params) => {return axios.patch(`${host}/userwantjob/`+userwantjobId+'/', params)};
+export const updateUserWantJob = (userwantjobId, params) => {return axios.patch(`${host}/userwantjob/`+userwantjobId+'/', params,{
+  headers:{'X-CSRFToken': cookie.getCookie('csrftoken')}
+})};
 
 //登录
 export const login = params => {
-  return axios.post(`${host}/login/`, params)
+  return axios.post(`${host}/login/`, params,{
+    headers:{'X-CSRFToken': cookie.getCookie('csrftoken')}
+  })
 };
 //注册
 export const register = params => {
-  return axios.post(`${host}/register/`, params)
+  return axios.post(`${host}/register/`, params,{
+    headers:{'X-CSRFToken': cookie.getCookie('csrftoken')}
+  })
 };
 
 

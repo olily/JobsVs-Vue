@@ -40,7 +40,7 @@
 
 <script>
     import JobCard from "../components/recommend/JobCard"
-    import {getJobs,getCompanies} from '../api/api'
+    import {getJobs,getCompanies,getUserWantJob} from '../api/api'
     export default {
         name: "HomeComponent",
         components:
@@ -48,21 +48,96 @@
             JobCard,
           },
         created(){
-          this.getYesterdayJob();
+          this.getUserWantJobId();
+          // this.getYesterdayJob();
           this.getCompany();
         },
         data(){
           return{
             jobs: [],
             companies: [],
+            city: '',
+            salary_low: '',
+            salary_high: '',
+            work_year_low: '',
+            work_year_high: '',
+
           }
         },
         mounted(){
           this.drawNewJobsChart();
         },
       methods: {
+        getWorkYearRange(e){
+          let work_year_min = '';
+          let work_year_max = '';
+          if(e==''){
+            work_year_min = '';
+            work_year_max = '';
+          }else if(e==1){
+            work_year_min = 0;
+            work_year_max = 0;
+          } else if (e==2){
+            work_year_min = 1;
+            work_year_max = 3;
+          } else if (e==3){
+            work_year_min = 3;
+            work_year_max = 5;
+          } else if (e==4){
+            work_year_min = 5;
+            work_year_max = 10;
+          } else if (e==5){
+            work_year_min = 10;
+            work_year_max = 99;
+          }
+          return {
+            min: work_year_min,
+            max: work_year_max
+          }
+        },
         sendMsgToParent(){
           this.$bus.emit('listenToChildEvent',"");
+        },
+        getUserWantJobId(){
+          getUserWantJob({
+            user: this.$store.state.userInfo['id']
+          }).then((response)=> {
+            let data = response.data;
+            if (data.length>0){
+              console.log(response);
+              this.city = data[0]['want_city'];
+              if (this.city === 1){
+                this.city = 2;
+              }
+              this.salary_low = data[0]['want_salary_low'];
+              this.salary_high = data[0]['want_salary_high'];
+              let work_year = this.getWorkYearRange(data[0]['want_workyear']);
+              this.work_year_low = work_year.min;
+              this.work_year_high = work_year.max;
+              this.getRecommendJob();
+            }
+          }).catch(function (error)
+          {
+            console.log(error);
+          })
+        },
+        getRecommendJob(){
+          getJobs({
+            city: this.city,
+            work_year_min: this.work_year_low,
+            salary_low_min: this.salary_low,
+            salary_high_max: this.salary_high,
+            page_size: 16
+          }).then((response)=> {
+            // console.log(response);
+            let data = response.data;
+            // data.results.sort(function (a, b) {
+            //   return b.result - a.result;
+            // });
+            this.jobs = data.results.slice(0,16);
+          }).catch(function (error) {
+            console.log(error);
+          });
         },
         getYesterdayJob() {
           getJobs({
@@ -89,7 +164,6 @@
           // 基于准备好的dom，初始化echarts实例
           let myChart1 = this.$echarts.init(document.getElementById('newJobsChart'));
           // 绘制图表
-          // data: ["04-01","04-02","04-03","04-04","04-05","04-06","04-07"]
           myChart1.setOption({
             title: {
               text: '近一周新增岗位',
@@ -101,6 +175,9 @@
                 align: 'center'   //水平对齐
               }
             },
+            grid:{
+              left:"16%",
+            },
             tooltip: {
               trigger: 'axis'
             },
@@ -109,60 +186,29 @@
               data: ['全部新增', '关注'],
               'x': 'right'
             },
-            // toolbox: {
-            //   show : true,
-            //   feature : {
-            //     dataView : {show: true, readOnly: false},
-            //     magicType : {show: true, type: ['line', 'bar']},
-            //     restore : {show: true},
-            //     saveAsImage : {show: true}
-            //   }
-            // },
             calculable: true,
             xAxis: [
               {
                 type: 'category',
-                data: ["05-18", "05-19", "05-20", "05-21", "05-22", "05-23", "05-24"]
+                data: ["05-25", "05-26", "05-27", "05-28", "05-29", "05-30", "05-31"]
               }
             ],
             yAxis: [
               {
                 type: 'value'
-              }
+              },
             ],
             series: [
               {
                 name: '全部新增',
                 type: 'bar',
-                data: [234, 456, 342, 930, 487, 987, 239],
-                // markPoint : {
-                //   data : [
-                //     {type : 'max', name: '最大值'},
-                //     {type : 'min', name: '最小值'}
-                //   ]
-                // },
-                markLine: {
-                  data: [
-                    {type: 'average', name: '平均值'}
-                  ]
-                },
+                data: [27501, 33142, 99303, 66506, 79525, 64331, 84912,],
                 color: "#FFA897"
               },
               {
                 name: '关注',
                 type: 'bar',
-                data: [100, 20, 30, 51, 28, 89, 42],
-                // markPoint : {
-                //   data : [
-                //     {name : '年最高', value : 182.2, xAxis: 7, yAxis: 183},
-                //     {name : '年最低', value : 2.3, xAxis: 11, yAxis: 3}
-                //   ]
-                // },
-                markLine: {
-                  data: [
-                    {type: 'average', name: '平均值'}
-                  ]
-                },
+                data: [95, 90, 472, 231, 545, 678, 492],
                 color: "#BC8DEE"
               },
             ]

@@ -541,6 +541,7 @@
             trigger: 'item'
           },
           grid: {
+            containLabel: true,
             right: 40,
             top: 100,
             bottom: 40,
@@ -741,6 +742,7 @@
           },
           animation: false,
           grid: {
+            containLabel: true,
             height: '50%',
             y: '10%'
           },
@@ -870,7 +872,6 @@
             dimension: 2,
             inRange: {
               color: ['#F5ECA4','#C0454D'],
-              // colorAlpha: [0, 1]
             },
             calculable: true,
             orient: 'horizontal',

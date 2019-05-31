@@ -93,6 +93,7 @@
     methods:{
       getCompany(e) {
         getFocusCompanies({
+          user: this.$store.state.userInfo['id'],
           page: e,
         }).then((response)=> {
           let data = response.data;
@@ -105,6 +106,7 @@
       currentChangeHandler(e){
         this.curPage = e;
         getFocusCompanies({
+          user: this.$store.state.userInfo['id'],
           company__name: this.companyname,
           page: e,
         }).then((response)=> {
@@ -117,6 +119,7 @@
       },
       searchHandle(){
         getFocusCompanies({
+          user: this.$store.state.userInfo['id'],
           company__name: this.companyname,
         }).then((response)=> {
           let data = response.data;
