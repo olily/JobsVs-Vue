@@ -62,7 +62,7 @@
             <el-button
               v-if="that.$store.state.userCollectJobs!==null&&that.$store.state.userCollectJobs.hasOwnProperty(jobs[scope.$index].id)"
               size="mini"
-              @click.native.prevent="delCollectJobHandler(scope.$index)">删除</el-button>
+              @click.native.prevent="delCollectJobHandler(scope.$index)">已收藏</el-button>
             <el-button v-else
                        size="mini"
                        type="danger"
@@ -85,7 +85,7 @@
 </template>
 
 <script>
-  import {delCollectJob, getJobs, addCollectJob, getCollectJobs} from '../../api/api'
+  import {delCollectJob, getJobs, addCollectJob, getCollectJobs,getUserWantJob} from '../../api/api'
   export default {
     name: "CollectForUser",
     data(){
@@ -96,6 +96,12 @@
         curPage: 1,
         pageSize: 5,
         total: 1000,
+        city: '',
+        salary_low: '',
+        salary_high: '',
+        workyearValue: '',
+        want_industry: '',
+        wantjobfunction: '',
         eduOptions: [{
           value: '',
           label: '学历'
@@ -126,14 +132,30 @@
       }
     },
     created() {
-      this.getYesterdayJob(this.curPage);
-    },
-    mounted() {
-      let userInfo = this.$store.state.userInfo;
-      this.want_jobfunction_id = userInfo['jobfunction'];
-      this.getRecommendJobs();
+      this.getUserWantJobId();
     },
     methods:{
+      getUserWantJobId(){
+        getUserWantJob({
+          user: this.$store.state.userInfo['id']
+        }).then((response)=> {
+          let data = response.data;
+          if (data.length>0){
+            let result = data[0];
+            // this.wantjobId = result['id'];
+            this.city = result['want_city'];
+            this.salary_low = result['want_salary_low'];
+            this.salary_high = result['want_salary_high'];
+            this.workyearValue = result['want_workyear'].toString();
+            this.want_industry = result['want_industry'];
+            this.wantjobfunction = result['want_jobfunction'];
+            this.getRecommendJobs(this.curPage);
+          }
+        }).catch(function (error)
+        {
+          console.log(error);
+        })
+      },
       getWorkYearRange(e){
         let work_year_min = '';
         let work_year_max = '';
@@ -161,20 +183,20 @@
           max: work_year_max
         }
       },
-      getYesterdayJob(e) {
+      getRecommendJobs(e) {
         let work_year_range = this.getWorkYearRange(this.workyearValue);
         getJobs({
           name: this.jobname,
-          city: this.cityArray[1],
+          city: this.city,
           education: this.eduValue,
           work_year_min: work_year_range.min,
           work_year_max: work_year_range.max,
-          page_size:203,
           page: e
         }).then((response)=> {
           let data = response.data;
           this.jobs = data.results;
-          this.total = data.count;
+          // this.total = data.count;
+          this.total = 203;
         }).catch(function (error) {
           console.log(error);
         });
@@ -184,7 +206,7 @@
         this.curPage = e;
         getJobs({
           name: this.jobname,
-          city: this.cityArray[1],
+          city: this.city,
           education: this.eduValue,
           work_year_min: work_year_range.min,
           work_year_max: work_year_range.max,
@@ -201,7 +223,7 @@
         let work_year_range = this.getWorkYearRange(this.workyearValue);
         getJobs({
           name: this.jobname,
-          city: this.cityArray[1],
+          city: this.city,
           education: this.eduValue,
           work_year_min: work_year_range.min,
           work_year_max: work_year_range.max,

@@ -10,15 +10,19 @@ export const getJobs = params => { return axios.get(`${host}/jobs/`,{ params: pa
 export const getCompanies = params => { return axios.get(`${host}/company/`,{ params: params  })};
 
 //获取收藏岗位
-export const getCollectJobs = params => { return axios.get(`${host}/usercollectjob/`,{ params: params  })};
+export const getCollectJobs = params => { return axios.get(`${host}/usercollectjob/`,params,{
+  headers:{'X-CSRFToken': cookie.getCookie('csrftoken')}
+})};
 
 // 添加收藏岗位
-export const addCollectJob = params => { return axios.post(`${host}/usercollectjob/`,params),{
+export const addCollectJob = params => { return axios.post(`${host}/usercollectjob/`,params,{
   headers:{'X-CSRFToken': cookie.getCookie('csrftoken')}
-}};
+})};
 
 //取消收藏岗位
-export const delCollectJob = collectjobId => {return axios.delete(`${host}/usercollectjob/`+collectjobId+'/')};
+export const delCollectJob = collectjobId => {return axios.delete(`${host}/usercollectjob/`+collectjobId+'/',
+  {headers: {'X-CSRFToken': cookie.getCookie('csrftoken')}
+})};
 
 //获取关注公司
 export const getFocusCompanies = params => { return axios.get(`${host}/userfocuscompany/`,{ params: params  })};

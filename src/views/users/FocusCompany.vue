@@ -50,7 +50,7 @@
             <el-button
               v-if="that.$store.state.userFocusCompanies!==null&&that.$store.state.userFocusCompanies.hasOwnProperty(companies[scope.$index].company)"
               size="mini"
-              @click.native.prevent="delFocusCompanyHandler(scope.$index)">删除</el-button>
+              @click.native.prevent="delFocusCompanyHandler(scope.$index)">已关注</el-button>
             <el-button v-else
                        size="mini"
                        type="danger"
@@ -130,8 +130,7 @@
         });
       },
       delFocusCompanyHandler(index) {
-        delFocusCompany(
-          this.companies[index].id
+        delFocusCompany(this.companies[index].id
         ).then((response)=>{
           delete this.$store.state.userFocusCompanies[this.companies[index].company];
           localStorage.setItem('focuscompanies',JSON.stringify(this.$store.state.userFocusCompanies));

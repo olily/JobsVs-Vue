@@ -79,7 +79,7 @@
             <el-button
               v-if="that.$store.state.userCollectJobs!==null&&that.$store.state.userCollectJobs.hasOwnProperty(jobs[scope.$index].id)"
               size="mini"
-              @click.native.prevent="delCollectJobHandler(scope.$index)">删除</el-button>
+              @click.native.prevent="delCollectJobHandler(scope.$index)">已收藏</el-button>
             <el-button v-else
                        size="mini"
                        type="danger"

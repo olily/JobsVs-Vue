@@ -69,7 +69,7 @@
             <el-button
               v-if="that.$store.state.userFocusCompanies!==null&&that.$store.state.userFocusCompanies.hasOwnProperty(companies[scope.$index].id)"
               size="mini"
-              @click.native.prevent="delFocusCompanyHandler(scope.$index)">删除</el-button>
+              @click.native.prevent="delFocusCompanyHandler(scope.$index)">已关注</el-button>
             <el-button v-else
               size="mini"
               type="danger"

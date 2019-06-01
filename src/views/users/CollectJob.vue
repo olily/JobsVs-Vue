@@ -63,7 +63,7 @@
           <el-button
             v-if="that.$store.state.userCollectJobs!==null&&that.$store.state.userCollectJobs.hasOwnProperty(jobs[scope.$index].job)"
             size="mini"
-            @click.native.prevent="delCollectJobHandler(scope.$index)">删除</el-button>
+            @click.native.prevent="delCollectJobHandler(scope.$index)">已收藏</el-button>
           <el-button v-else
                      size="mini"
                      type="danger"
@@ -107,6 +107,7 @@
     methods:{
       getYesterdayJob(e) {
         getCollectJobs({
+          user: this.$store.state.userInfo['id'],
           page: e
         }).then((response)=> {
           let data = response.data;
@@ -119,10 +120,12 @@
       currentChangeHandler(e){
         this.curPage = e;
         getCollectJobs({
+          user: this.$store.state.userInfo['id'],
           job__name: this.jobname,
           job__company__name: this.companyname,
           page: e,
         }).then((response)=> {
+          console.log("res",response);
           let data = response.data;
           this.jobs = data.results;
           this.total = data.count;
@@ -132,6 +135,7 @@
       },
       searchHandle(){
         getCollectJobs({
+          user: this.$store.state.userInfo['id'],
           job__name: this.jobname,
           job__company__name: this.companyname,
         }).then((response)=> {
