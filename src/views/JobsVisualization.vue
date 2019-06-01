@@ -606,9 +606,9 @@
                 }
               }
             },
-            tooltip : {
-              trigger: 'item'
-            },
+            // tooltip : {
+            //   trigger: 'item'
+            // },
             grid: {
               containLabel: true,
               right: 40,

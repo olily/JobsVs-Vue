@@ -54,8 +54,10 @@
           label="学历">
         </el-table-column>
         <el-table-column
-          prop="put_time"
           label="发布时间">
+          <template>
+            2019-05-31
+          </template>
         </el-table-column>
         <el-table-column>
           <template slot-scope="scope">
@@ -102,6 +104,7 @@
         workyearValue: '',
         want_industry: '',
         wantjobfunction: '',
+        jobfunction__category: '',
         eduOptions: [{
           value: '',
           label: '学历'
@@ -141,6 +144,7 @@
         }).then((response)=> {
           let data = response.data;
           if (data.length>0){
+            console.log(data);
             let result = data[0];
             // this.wantjobId = result['id'];
             this.city = result['want_city'];
@@ -149,6 +153,7 @@
             this.workyearValue = result['want_workyear'].toString();
             this.want_industry = result['want_industry'];
             this.wantjobfunction = result['want_jobfunction'];
+            this.jobfunction__category = result['jobfunction_parent'];
             this.getRecommendJobs(this.curPage);
           }
         }).catch(function (error)
@@ -188,6 +193,7 @@
         getJobs({
           name: this.jobname,
           city: this.city,
+          jobfunction__category: this.jobfunction__category,
           education: this.eduValue,
           work_year_min: work_year_range.min,
           work_year_max: work_year_range.max,
@@ -196,7 +202,7 @@
           let data = response.data;
           this.jobs = data.results;
           // this.total = data.count;
-          this.total = 203;
+          this.total = 99;
         }).catch(function (error) {
           console.log(error);
         });
@@ -207,6 +213,7 @@
         getJobs({
           name: this.jobname,
           city: this.city,
+          jobfunction__category: this.jobfunction__category,
           education: this.eduValue,
           work_year_min: work_year_range.min,
           work_year_max: work_year_range.max,
@@ -224,6 +231,7 @@
         getJobs({
           name: this.jobname,
           city: this.city,
+          jobfunction__category: this.jobfunction__category,
           education: this.eduValue,
           work_year_min: work_year_range.min,
           work_year_max: work_year_range.max,

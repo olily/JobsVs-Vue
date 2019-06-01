@@ -156,7 +156,8 @@
         uploadAvatar(this.userProfileId,param).then((response)=> {
           console.log(response);
           if(response.status === 200){
-            this.$message.success("修改成功，请刷新查看");
+            this.$message.success("修改成功");
+            this.getUserProfileId();
           }else{
             console.log("你没有权限");
           }

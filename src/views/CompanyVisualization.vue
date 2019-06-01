@@ -63,7 +63,7 @@
       },
       getCompanyParalle(){
         getCompaniesParalle({
-          page_size: 10000
+          page_size: 1000
         }).then((response)=> {
           this.paralleData = response.data.results;
           this.drawParalleChart();
@@ -869,8 +869,8 @@
           visualMap: {
             // show: true,
             min: 0,
-            max: 11,
-            dimension: 2,
+            max: 35,
+            dimension: 0,
             inRange: {
               color: ['#F5ECA4','#C0454D'],
             },

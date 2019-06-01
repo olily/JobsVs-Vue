@@ -1,10 +1,10 @@
 <template>
     <div class="jobcard">
       <el-row :gutter="24" style="padding-top: 10px">
-        <el-col :span="16">
+        <el-col :span="14">
           <span class="card-job-name">{{job.name}}</span>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="10">
           <span class="card-salary">{{job.salary_low}}-{{job.salary_high}}</span>
         </el-col>
       </el-row>
@@ -25,7 +25,7 @@
         </el-col>
         <el-col :span="20">
           <el-row  >
-            <span class="card-job-name" >{{job.company_name}}</span>
+            <span class="card-company-name" >{{job.company_name}}</span>
           </el-row>
           <el-row class="card-job-edu">
             <span> {{job.city_name}} / {{job.companysize_name}}</span>
@@ -50,12 +50,29 @@
     /*border-radius: 0px;*/
     border:1px solid rgba(153,153,153,0.2);
   }
-  .card-job-name{
+  .card-job-name {
     float:left;
     margin-left: 10px;
     font-size: 15px;
+    overflow:hidden;
+    text-align: left;
+    text-overflow:ellipsis;
+    white-space: nowrap;
     /*font-weight: bold;*/
-    color: #333333;
+    width: 210px;
+    /*color: #333333;*/
+  }
+  .card-company-name{
+
+    width: 240px;
+    float:left;
+    margin-left: 10px;
+    font-size: 15px;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    /*font-weight: bold;*/
+    /*color: #333333;*/
   }
   .card-salary{
     float:right;
@@ -86,8 +103,8 @@
   .card-company-logo{
     float:left;
     margin-left: 10px;
-    width: 40px;
-    height:38px;
+    width: 45px;
+    height:45px;
   }
 
 </style>

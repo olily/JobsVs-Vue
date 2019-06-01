@@ -68,7 +68,7 @@
       data(){
         return{
           activeComponent: HomeComponent,
-          recommendjobs:'203',
+          recommendjobs:'99',
           activecompanycount: 0,
           yesterdayaddjobscount: 0,
           focuscompanyJobcount: 0,
